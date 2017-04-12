@@ -1,0 +1,5 @@
+[submodule "reveal.js"]
+	path = reveal.js
+	url = git://github.com/hakimel/reveal.js.git
+	shallow = true
+    ignore = untracked
