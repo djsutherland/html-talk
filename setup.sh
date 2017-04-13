@@ -4,8 +4,8 @@ set -e
 cd $(dirname $0)
 
 git submodule update --init
-(cd reveal.js/css/theme/source && ln -s ../../../../djs.scss .)
-(cd reveal.js && npm install)
+(cd reveal.js/css/theme/source && ln -sf ../../../../djs.scss .)
+(cd reveal.js && npm install && node_modules/grunt-cli/bin/grunt css-themes)
 
 # TODO: could get MathJax via npm; would get a system cache and such
 ver=2.7.0
