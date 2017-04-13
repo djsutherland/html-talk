@@ -13,4 +13,6 @@ if [[ ! -d MathJax-$ver ]]; then
     wget https://github.com/mathjax/MathJax/archive/2.7.0.zip
     unzip $ver.zip
     rm $ver.zip
+    sed -i -e 's/imageFont: "TeX"/imageFont: null/' MathJax-$ver/config/default.js
+    rm -r MathJax-$ver/fonts/HTML-CSS/TeX/png/
 fi
