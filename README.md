@@ -1,4 +1,4 @@
-Initial setup with `setup.sh`.
+Initial setup: `npm install`.
 
 For fully offline use, install fonts:
  - On Mac, with homebrew:

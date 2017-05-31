@@ -1,5 +1,3 @@
 #!/bin/bash
-set -e
 
-cd $(dirname $0)/reveal.js
-node_modules/grunt-cli/bin/grunt css-themes serve --root=..
+node_modules/.bin/grunt css serve
