@@ -23,6 +23,14 @@ module.exports = function(grunt) {
 			'css/djs.css': 'css/src/djs.scss'
 		},
 
+		pug: {
+			compile: {
+				files: {
+					'index.html': ['index.pug', 'slides.pug']
+				}
+			}
+		},
+
 		connect: {
 			server: {
 				options: {
@@ -43,6 +51,12 @@ module.exports = function(grunt) {
 				],
 				tasks: 'css'
 			},
+			slides: {
+				files: [
+					'*.pug',
+				],
+				tasks: 'pug:compile'
+			},
 			html: {
 				files: root.map(path => path + '/*.html')
 			},
@@ -57,17 +71,21 @@ module.exports = function(grunt) {
 	});
 
 	// Dependencies
-	grunt.loadNpmTasks( 'grunt-contrib-watch' );
-	grunt.loadNpmTasks( 'grunt-contrib-connect' );
-	grunt.loadNpmTasks( 'grunt-sass' );
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-connect');
+	grunt.loadNpmTasks('grunt-contrib-pug');
+	grunt.loadNpmTasks('grunt-sass');
 
 	// Default task
-	grunt.registerTask( 'default', [ 'css' ] );
+	grunt.registerTask('default', ['css', 'html']);
 
 	// Theme CSS
-	grunt.registerTask( 'css', [ 'sass' ] );
+	grunt.registerTask('css', ['sass']);
+
+	// Slideshow HTML
+	grunt.registerTask('html', ['pug:compile']);
 
 	// Serve presentation locally
-	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
+	grunt.registerTask('serve', ['connect', 'watch']);
 
 };

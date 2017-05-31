@@ -1,3 +1,3 @@
 #!/bin/bash
 
-node_modules/.bin/grunt css serve
+node_modules/.bin/grunt default serve

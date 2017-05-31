@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+  head
+    title A Cool Talk Title
+
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+
+    link(rel="stylesheet", href="node_modules/reveal.js/css/reveal.css")
+    link(rel="stylesheet", href="css/djs.css")
+
+    <!-- Used for code syntax highlighting -->
+    link(rel="stylesheet", href="node_modules/reveal.js/lib/css/zenburn.css")
+
+    script(src="js/exports.js")
+
+  body
+    .reveal
+      .slides
+        include slides.pug
+
+    script(src="node_modules/reveal.js/lib/js/head.min.js")
+    script(src="node_modules/reveal.js/js/reveal.js")
+    script(src="js/init.js")
