@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 		pug: {
 			compile: {
 				files: {
-					'index.html': ['index.pug', 'slides.pug']
+					'index.html': ['slides.pug']
 				}
 			}
 		},
