@@ -5,6 +5,7 @@ set -e
 qq='"'"'"
 deps=$(git grep "[$qq]node_modules/[^$qq]*[$qq]" \
       | grep -v ':@import' \
+      | grep -v 'distribute.sh:' \
       | grep -o "node_modules/[^$qq]*" \
       | grep -v 'node_modules/mathjax/')
 
