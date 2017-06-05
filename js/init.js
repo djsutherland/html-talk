@@ -15,6 +15,8 @@ client.onreadystatechange = function() {
     }
 }
 console.log("Checking for offline mathjax...")
+// NOTE: this won't work if on file:// in webkit;
+//       if you need to work offline, run a web server (e.g. serve.sh)
 client.open("HEAD", mathjax_offline_path);
 client.send();
 
