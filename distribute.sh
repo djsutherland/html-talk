@@ -8,6 +8,7 @@ deps=$(git grep "[$qq]node_modules/[^$qq]*[$qq]" \
       | grep -v 'distribute.sh:' \
       | grep -o "node_modules/[^$qq]*" \
       | grep -v 'node_modules/mathjax/')
+deps="$deps node_modules/reveal.js/plugin/notes/notes.html"
 
 node_modules/.bin/grunt default
 tar czf talk.tar.gz index.html css js img $deps
