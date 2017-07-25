@@ -26,7 +26,18 @@ module.exports = function(grunt) {
 		pug: {
 			compile: {
 				files: {
-					'index.html': ['slides.pug']
+					'index-premath.html': ['slides.pug']
+				}
+			}
+		},
+
+		mathjax_node_page: {
+			options: {
+				page: {singleDollars: true}
+			},
+			render: {
+				files: {
+					'index.html': ['index-premath.html']
 				}
 			}
 		},
@@ -45,16 +56,11 @@ module.exports = function(grunt) {
 
 		watch: {
 			theme: {
-				files: [
-					'css/src/*.sass',
-					'css/src/*.scss',
-				],
+				files: ['css/src/*.s{a,c}ss'],
 				tasks: 'css'
 			},
 			slides: {
-				files: [
-					'*.pug',
-				],
+				files: ['*.pug'],
 				tasks: 'pug:compile'
 			},
 			html: {
@@ -78,6 +84,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-pug');
 	grunt.loadNpmTasks('grunt-sass');
+	grunt.loadNpmTasks('grunt-mathjax-node-page');
 
 	// Default task
 	grunt.registerTask('default', ['css', 'html']);
@@ -86,7 +93,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('css', ['sass']);
 
 	// Slideshow HTML
-	grunt.registerTask('html', ['pug:compile']);
+	grunt.registerTask('html', ['pug:compile', 'mathjax_node_page']);
 
 	// Serve presentation locally
 	grunt.registerTask('serve', ['connect', 'watch']);
