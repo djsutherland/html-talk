@@ -1,4 +1,7 @@
 /* global module:false */
+
+const path = require('path');
+
 module.exports = function(grunt) {
 	var port = grunt.option('port') || 8000;
 	var root = grunt.option('root') || '.';
@@ -31,9 +34,25 @@ module.exports = function(grunt) {
 			}
 		},
 
+		template: {
+			options: {
+				data: {
+					dirname: path.resolve('js')
+				}
+			},
+			js: {
+				files: {
+					'js/mathjaxFragments.js': 'js/mathjaxFragments.js.tpl'
+				}
+			}
+		},
+
 		mathjax_node_page: {
 			options: {
-				page: {singleDollars: true}
+				page: {
+					singleDollars: true,
+					extensions: 'file://' + path.resolve('js/mathjaxFragments.js')
+				}
 			},
 			render: {
 				files: {
@@ -63,18 +82,14 @@ module.exports = function(grunt) {
 				files: ['*.pug'],
 				tasks: ['pug:compile', 'mathjax_node_page:render']
 			},
-			html: {
-				files: ['index.html']
+			templates: {
+				files: ['**/*.tpl'],
+				tasks: ['template']
 			},
-			js: {
-				files: root.map(path => path + '/js/*.js')
-			},
-			markdown: {
-				files: root.map(path => path + '/*.md')
-			},
-			options: {
-				livereload: true
-			}
+			html: { files: ['index.html'] },
+			js: { files: root.map(path => path + '/js/*.js') },
+			markdown: { files: root.map(path => path + '/*.md') },
+			options: { livereload: true }
 		},
 
 	});
@@ -83,8 +98,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-pug');
-	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-mathjax-node-page');
+	grunt.loadNpmTasks('grunt-sass');
+	grunt.loadNpmTasks('grunt-template');
 
 	// Default task
 	grunt.registerTask('default', ['css', 'html']);
