@@ -61,10 +61,10 @@ module.exports = function(grunt) {
 			},
 			slides: {
 				files: ['*.pug'],
-				tasks: 'pug:compile'
+				tasks: ['pug:compile', 'mathjax_node_page:render']
 			},
 			html: {
-				files: root.map(path => path + '/*.html')
+				files: ['index.html']
 			},
 			js: {
 				files: root.map(path => path + '/js/*.js')
