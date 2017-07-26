@@ -8,6 +8,8 @@ module.exports = function(grunt) {
 
 	if (!Array.isArray(root)) root = [root];
 
+	var mj_exts = ['mathjaxFragments.js'];
+
 	// Project configuration
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -41,9 +43,10 @@ module.exports = function(grunt) {
 				}
 			},
 			js: {
-				files: {
-					'js/mathjaxFragments.js': 'js/mathjaxFragments.js.tpl'
-				}
+				files: mj_exts.map(n => ({
+					src: 'js/' + n + '.tpl',
+					dest: 'js/' + n
+				}))
 			}
 		},
 
@@ -51,7 +54,7 @@ module.exports = function(grunt) {
 			options: {
 				page: {
 					singleDollars: true,
-					extensions: 'file://' + path.resolve('js/mathjaxFragments.js')
+					extensions: mj_exts.map(n => 'file://' + path.resolve('js', n)).join(',')
 				}
 			},
 			render: {
@@ -82,6 +85,10 @@ module.exports = function(grunt) {
 				files: ['*.pug'],
 				tasks: ['pug:compile', 'mathjax_node_page:render']
 			},
+			math_plugins: {
+				files: mj_exts.map(fn => 'js/' + fn),
+				tasks: ['mathjax_node_page:render']
+			},
 			templates: {
 				files: ['**/*.tpl'],
 				tasks: ['template']
@@ -90,8 +97,7 @@ module.exports = function(grunt) {
 			js: { files: root.map(path => path + '/js/*.js') },
 			markdown: { files: root.map(path => path + '/*.md') },
 			options: { livereload: true }
-		},
-
+		}
 	});
 
 	// Dependencies
