@@ -15,7 +15,6 @@
   "dependencies": {
     "express": "^4.15.3",
     "grunt-cli": "^1.2.0",
-    "mustache": "^2.3.0",
     "reveal.js": "^3.5.0",
     "socket.io": "^2.0.3"
   },
