@@ -1,7 +1,7 @@
 /**
- * Black theme for reveal.js.
+ * Theme for reveal.js.
  *
- * Based off of the "night" theme, which is:
+ * Based off of the reveal.js base themes, which are:
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
 
@@ -15,22 +15,61 @@
 // Include theme-specific fonts
 @import url(https://fonts.googleapis.com/css?family=Montserrat:700);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic);
+@import url(https://fonts.googleapis.com/css?family=Inconsolata);
 
 
 // Override theme settings (see ../template/settings.scss)
-$backgroundColor: #111;
+$backgroundColor: #fff;
+$mainColor: #222;
+$headingColor: #222;
 
 $mainFont: 'Open Sans', sans-serif;
-$linkColor: #e7ad52;
-$linkColorHover: lighten( $linkColor, 20% );
+$mainFontSize: 32px;
+
+$linkColor: #2a76dd;
+$linkColorHover: lighten($linkColor, 20%);
+
 $headingFont: 'Montserrat', Impact, sans-serif;
 $headingTextShadow: none;
 $headingLetterSpacing: -0.03em;
 $headingTextTransform: none;
-$selectionBackgroundColor: #e7ad52;
-$heading1Size: 2em;
+
+$selectionBackgroundColor: lighten($linkColor, 20%);
+
+$heading1Size: 1.5em;
+$heading2Size: 1.25em;
+$heading3Size: 1.1em;
+$heading4Size: 1.0em;
 
 
 // Theme template ------------------------------
 @import "node_modules/reveal.js/css/theme/template/theme";
 // ---------------------------------------------
+
+.reveal {
+    li {
+        margin-bottom: 1ex;
+    }
+
+    .block-left {
+        display: inline-block;
+        margin-right: .5em;
+    }
+    .block-middle {
+        display: inline-block;
+        margin-left: .5em;
+        margin-right: .5em;
+    }
+    .block-right {
+        display: inline-block;
+        margin-left: .5em;
+    }
+
+    .cite {
+        font-size: 85%;
+    }
+
+    .tt {
+        font-family: 'Inconsolata', monospace;
+    }
+}

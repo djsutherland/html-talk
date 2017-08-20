@@ -36,6 +36,40 @@ module.exports = function(grunt) {
 			}
 		},
 
+		exec: {
+			latex: {
+				command: function() {
+					var fns = this.task.current.filesSrc.join(' ');
+					return 'latexmk -cd -pdf ' + fns;
+				},
+				files: [{
+					expand: true,
+					cwd: 'notebooks/',
+					src: ['**/*.tex'],
+					dest: 'notebooks/',
+					rename: function(dest, src) {
+						return dest + src.replace('.tex', '.pdf');
+					}
+				}]
+			},
+			pdf2svg: {
+				command: function() {
+					return this.task.current.files.map(
+						o => 'pdf2svg ' + o.src.join(' ') + ' ' + o.dest
+					).join(' && ');
+				},
+				files: [{
+					expand: true,
+					cwd: 'notebooks/',
+					src: ['**/*.pdf'],
+					dest: 'img/',
+					rename: function(dest, src) {
+						return dest + src.replace('.pdf', '.svg');
+					}
+				}]
+			}
+		},
+
 		template: {
 			options: {
 				data: {
@@ -104,6 +138,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-pug');
+	grunt.loadNpmTasks('grunt-exec');
 	grunt.loadNpmTasks('grunt-mathjax-node-page');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-template');

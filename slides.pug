@@ -1,7 +1,22 @@
 extends layout.pug
 
 block title
-  title A Cool Talk Title
+
+mixin ref(name, href)
+  span.cite
+    | [
+    a(href=href)= name
+    | ]
+mixin sref(name, href)
+  |  
+  +ref(name, href)
+mixin refs(name, href)
+  +ref(name, href)
+  |  
+mixin srefs(name, href)
+  |  
+  +ref(name, href)
+  |  
 
 block slides
   section
