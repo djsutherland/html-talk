@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 		},
 
 		sass: {
-			'css/djs.css': 'css/src/djs.scss'
+			'css/djs.css': 'scss/djs.scss'
 		},
 
 		pug: {
