@@ -22,4 +22,5 @@ MathJax.Hub.Register.StartupHook("TeX Jax Ready", function () {
 //    https://github.com/dougalsutherland/grunt-mathjax-node-page/issues/2
 //    https://github.com/mathjax/MathJax-node/issues/134
 //    https://github.com/mathjax/MathJax-node/issues/318#issuecomment-293890752
-MathJax.Ajax.loadComplete('file://<%= dirname %>/mathjaxFragments.js');
+// <% if (dirname.endsWith('/')) { dirname = dirname.slice(0, -1); } %>
+MathJax.Ajax.loadComplete("file://<%= dirname %>/fragments.js");

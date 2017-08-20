@@ -1,7 +1,5 @@
 extends layout.pug
 
-block title
-
 mixin ref(name, href)
   span.cite
     | [
@@ -17,6 +15,9 @@ mixin srefs(name, href)
   |  
   +ref(name, href)
   |  
+
+block title
+  title Title tag for the slides
 
 block slides
   section
