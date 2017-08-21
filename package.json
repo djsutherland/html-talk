@@ -1,5 +1,7 @@
 {
-  "name": "an-html-talk",
+  "name": "html-talk",
+  "repository": "dougalsutherland/html-talk",
+  "private": "true",
   "version": "0.1.0",
   "author": {
     "name": "Dougal J. Sutherland",
@@ -12,7 +14,8 @@
   "scripts": {
     "clean": "make clean",
     "build": "make all",
-    "watch": "watch make ."
+    "watch": "watch make .",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "reveal.js": "^3.5.0",

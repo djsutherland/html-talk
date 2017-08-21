@@ -16,5 +16,5 @@ js/mj-plugin/%.js: js/mj-plugin-src/%.js
 slides.html: slides.pug
 	${BIN}/pug $<
 
-index.html: slides.html
+index.html: slides.html js/mj-plugin/fragments.js
 	${BIN}/mjpage --dollars --extensions "file://${CURDIR}/js/mj-plugin/fragments.js" < $< > $@
