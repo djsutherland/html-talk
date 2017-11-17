@@ -23,8 +23,8 @@
   },
   "devDependencies": {
     "lodash.template-cli": "^0.5.0",
-    "mathjax-node-page": "^1.4.0",
-    "node-sass": "^4.5.3",
+    "mathjax-node-page": "^1.4.1",
+    "node-sass": "^4.6.1",
     "pug-cli": "^1.0.0-alpha6",
     "watch": "^1.0.2"
   }
