@@ -13,6 +13,7 @@ A base for a talk using [reveal.js](http://lab.hakim.se/reveal-js/). Features:
 For fully offline use, install the fonts. On Mac, with homebrew:
    - `brew tap caskroom/fonts`
    - `brew cask install font-open-sans font-montserrat font-inconsolata`
+   
 You might be able to just have the web fonts cached or something, though.
 
 
