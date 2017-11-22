@@ -1,0 +1,69 @@
+#!/usr/bin/env node
+
+const child_process = require('child_process');
+const minimist = require('minimist');
+const path = require('path');
+
+let args = minimist(process.argv, {
+    'default': {'port': 5000, 'lrport': 35729, 'dir': path.dirname(__dirname),
+                'http': true, 'watch': true},
+    'alias': {'p': 'port', 'd': 'dir'},
+    'boolean': ['http', 'watch']
+});
+
+process.env.USE_LIVERELOAD = args.watch ? 'true' : 'false'; // inherited by make
+let makeOpts = {cwd: args.dir, stdio: 'inherit'};
+
+// initial build
+child_process.spawnSync('make', [], makeOpts);
+
+// start web server
+if (args.http) {
+    const express = require('express');
+    const serveStatic = require('serve-static');
+
+    console.log(`Web server running at http://localhost:${args.port}/`);
+    var server = express();
+    server.use(serveStatic(args.dir));
+    server.listen(args.port);
+}
+
+if (args.watch) {
+    const chokidar = require('chokidar');
+    const livereload = require('livereload');
+    const locks = require('locks');
+
+    // start livereload server
+    let lrserver = livereload.createServer({port: args.lrport});
+    console.log(`LiveReload server started (port ${args.lrport}).`);
+
+
+    // Don't want to run make synchronously here or else the servers will hang.
+    // So we only run one make at a time. When the make finishes, it refreshes the
+    // thing that kicked it off. Example:
+    //   - I edit slides.pug
+    //   - make (called by slides.pug): edits slides.html, index.html
+    //   - refresh slides.pug (does nothing)
+    //   - make (called by slides.html): doesn't change anything
+    //   - refresh slides.html (does nothing)
+    //   - make (called by index.html): doesn't change anything
+    //   - refresh index.html
+    // Those makes that don't change anything output annoying "nothing to be done",
+    // but otherwise are fine.
+
+    let mutex = locks.createMutex();
+    let make = (path) => {
+        mutex.lock(() => {
+            child_process.spawn('make', [], makeOpts).on('exit', (code) => {
+                console.log(`done with ${path}`);
+                lrserver.refresh(path);
+                mutex.unlock();
+            });
+        });
+    };
+
+    let ignored = /node_modules|\.git|bin\/watch-build|README.md|package(-lock)?\.json/;
+    chokidar.watch(args.dir, {ignored: ignored, ignoreInitial: true})
+            .on('ready', (event, path) => { make('index.html'); })
+            .on('all', (event, path) => { make(path); });
+}

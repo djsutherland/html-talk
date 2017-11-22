@@ -22,3 +22,6 @@ html(lang="en")
     script(src="node_modules/reveal.js/lib/js/head.min.js")
     script(src="node_modules/reveal.js/js/reveal.js")
     script(src="js/init.js")
+    - if (typeof use_livereload !== 'undefined' && use_livereload)
+        script.
+          document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')

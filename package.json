@@ -12,20 +12,32 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "clean": "make clean",
     "build": "make all",
-    "watch": "watch make .",
-    "prepare": "npm run build"
+    "bundle": "npm install --only=prod && npm pack",
+    "clean": "make clean",
+    "prepare": "npm run build",
+    "serve": "bin/serve --http=true --watch=false",
+    "watch": "bin/serve --watch=true"
   },
   "dependencies": {
     "reveal.js": "^3.5.0",
     "reveal.js-menu": "^0.7.0"
   },
+  "bundledDependencies": [
+    "reveal.js",
+    "reveal.js-menu"
+  ],
   "devDependencies": {
+    "chokidar": "^1.7.0",
+    "express": "^4.16.2",
+    "livereload": "^0.6.3",
+    "locks": "^0.2.2",
     "lodash.template-cli": "^0.5.0",
     "mathjax-node-page": "^1.4.1",
+    "minimist": "^1.2.0",
     "node-sass": "^4.7.2",
+    "node-watch": "^0.5.5",
     "pug-cli": "^1.0.0-alpha6",
-    "watch": "^1.0.2"
+    "serve-static": "^1.13.1"
   }
 }
