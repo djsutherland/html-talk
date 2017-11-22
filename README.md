@@ -1,6 +1,10 @@
 A base for a talk using [reveal.js](http://lab.hakim.se/reveal-js/). Features:
-- slides written in [pug](https://pugjs.org), which is more pleasant than writing raw HTML but also allows more control than reveal.js's markdown support
-- static-rendered support for math via [MathJax-node](https://github.com/mathjax/MathJax-node)
+- Slides are written in [pug](https://pugjs.org), which is more pleasant than writing raw HTML but also allows more control than reveal.js's markdown support.
+- Static-rendered support for math via [MathJax-node](https://github.com/mathjax/MathJax-node): more reliable than live-rendering with the reveal.js math plugin, in my experience.
+- Pull in reveal.js and similar via npm, instead of writing your presentation in a reveal.js fork like many people seem to do.
+- Easily customize the theme settings in SCCS.
+
+Using it:
 
 - To install dependencies: `npm install`.
 - To build: `npm run build`.
