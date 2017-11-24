@@ -55,7 +55,6 @@ if (args.watch) {
     let make = (path) => {
         mutex.lock(() => {
             child_process.spawn('make', [], makeOpts).on('exit', (code) => {
-                console.log(`done with ${path}`);
                 lrserver.refresh(path);
                 mutex.unlock();
             });
