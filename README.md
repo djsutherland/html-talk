@@ -3,7 +3,7 @@ A base for a talk using [reveal.js](http://lab.hakim.se/reveal-js/). Features:
 - Static-rendered support for math via [MathJax-node](https://github.com/mathjax/MathJax-node): more reliable than live-rendering with the reveal.js math plugin, in my experience.
 - Pull in reveal.js and similar via npm, instead of writing your presentation in a reveal.js fork like many people seem to do.
 - Easily customize the theme settings in SCCS.
-- Builds with a Makefile instead of Grunt/Gulp/whatever. Those are fine, but I tried for a while to add things to those to run Python code to make figures, and it was so much work! Switching back to tried-and-true Make just feels right.
+- Builds with a Makefile instead of Grunt/Gulp/whatever. Those are fine, but I tried for a while to get those to run Python code to make figures, and it was so much work! Switching back to tried-and-true Make just feels right.
 - The one really nice thing you don't get for free with Make is [node-livereload](https://github.com/napcs/node-livereload) integration; that's set up here.
 
 Using it:
