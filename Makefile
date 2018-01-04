@@ -14,8 +14,5 @@ js/mj-plugin/%.js: js/mj-plugin-src/%.js
 	@# the tpl script kind of sucks
 	cd $(dir $<) && ${BIN}/tpl $*.js ../mj-plugin -- --dirname=${CURDIR}/$(dir $@)
 
-slides.html: slides.pug layout.pug
-	${BIN}/pug -O '{"use_livereload": '${USE_LIVERELOAD}'}' $<
-
-index.html: slides.html js/mj-plugin/fragments.js
-	${BIN}/mjpage --dollars --extensions "file://${CURDIR}/js/mj-plugin/fragments.js" < $< > $@
+index.html: slides.pug layout.pug js/mj-plugin/fragments.js
+	${CURDIR}/bin/compile --livereload=${USE_LIVERELOAD}
