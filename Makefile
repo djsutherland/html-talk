@@ -1,11 +1,14 @@
 USE_LIVERELOAD ?= false
 BIN := ${CURDIR}/node_modules/.bin
-.PHONY: all clean distribute
+.PHONY: all clean clean-html
 
 all: index.html css/djs.css
 
-clean:
-	rm -f index.html slides.html css/*.css js/mj-plugin/*.js
+clean-html:
+	rm -f index.html
+
+clean: clean-html
+	rm -f css/*.css js/mj-plugin/*.js
 
 css/%.css: scss/%.scss
 	${BIN}/node-sass $< > $@
