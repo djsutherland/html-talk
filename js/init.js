@@ -17,6 +17,8 @@ Reveal.initialize({
         numbers: true
     },
 
+    fragmentInURL: true,
+
     // More info https://github.com/hakimel/reveal.js#dependencies
     dependencies: [
         // { src: 'node_modules/reveal.js/plugin/markdown/marked.js' },
