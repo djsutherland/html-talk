@@ -3,6 +3,9 @@
 /slides.html
 /talk.tar.gz
 
+# Too much annoying
+/package-lock.json
+
 # Logs
 logs
 *.log
