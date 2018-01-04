@@ -20,20 +20,20 @@
     "watch": "bin/serve --watch=true"
   },
   "dependencies": {
-    "reveal.js": "^3.5.0",
-    "reveal.js-menu": "^0.7.0"
+    "reveal.js": "^3.6.0",
+    "reveal.js-menu": "^0.9.0"
   },
   "bundledDependencies": [
     "reveal.js",
     "reveal.js-menu"
   ],
   "devDependencies": {
-    "chokidar": "^1.7.0",
+    "chokidar": "^2.0.0",
     "express": "^4.16.2",
     "livereload": "^0.6.3",
     "locks": "^0.2.2",
     "lodash.template-cli": "^0.5.0",
-    "mathjax-node-page": "^1.4.1",
+    "mathjax-node-page": "^2.0.0",
     "minimist": "^1.2.0",
     "node-sass": "^4.7.2",
     "node-watch": "^0.5.5",
