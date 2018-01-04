@@ -7,12 +7,16 @@ const path = require('path');
 const pug = require('pug');
 
 let args = minimist(process.argv, {
-    'default': {'dir': path.dirname(__dirname), 'livereload': false},
-    'alias': {'d': 'dir'},
-    'boolean': ['livereload']
+    'default': {dir: path.dirname(__dirname), livereload: false, sync: false},
+    'alias': {d: 'dir'},
+    'boolean': ['livereload', 'sync']
 });
 
 var pugOptions = {use_livereload: args.livereload};
+if (args.sync) {
+    const pug_debug_line = require('pug-plugin-debug-line');
+    pugOptions.plugins = [pug_debug_line()];
+}
 var html = pug.renderFile(path.join(args.dir, 'slides.pug'), pugOptions);
 
 const mjglobal = {
