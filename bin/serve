@@ -3,6 +3,7 @@
 const child_process = require('child_process');
 const minimist = require('minimist');
 const path = require('path');
+const split2 = require('split2');
 
 let args = minimist(process.argv, {
     'default': {'port': 5000, 'lrport': 35729, 'dir': path.dirname(__dirname),
@@ -12,10 +13,10 @@ let args = minimist(process.argv, {
 });
 
 process.env.USE_LIVERELOAD = args.watch ? 'true' : 'false'; // inherited by make
-let makeOpts = {cwd: args.dir, stdio: 'inherit'};
 
 // initial build
-child_process.spawnSync('make', [], makeOpts);
+child_process.spawnSync('make', [], {cwd: args.dir, stdio: 'inherit'});
+console.log();
 
 // start web server
 if (args.http) {
@@ -35,7 +36,7 @@ if (args.watch) {
 
     // start livereload server
     let lrserver = livereload.createServer({port: args.lrport});
-    console.log(`LiveReload server started (port ${args.lrport}).`);
+    console.log(`LiveReload server started (port ${args.lrport}).\n`);
 
 
     // Don't want to run make synchronously here or else the servers will hang.
@@ -52,16 +53,23 @@ if (args.watch) {
     // but otherwise are fine.
 
     let mutex = locks.createMutex();
+    let makeOpts = {cwd: args.dir, stdio: ['inherit', 'pipe', 'inherit']};
     let make = (path) => {
         mutex.lock(() => {
-            child_process.spawn('make', [], makeOpts).on('exit', (code) => {
+            let make = child_process.spawn('make', [], makeOpts);
+            make.stdout.pipe(split2()).on('data', (line) => {
+                if (line != "make: Nothing to be done for `all'.") {
+                    console.log(line);
+                }
+            });
+            make.on('exit', (code) => {
                 lrserver.refresh(path);
                 mutex.unlock();
             });
         });
     };
 
-    let ignored = /node_modules|\.git|bin\/watch-build|README.md|package(-lock)?\.json/;
+    let ignored = /node_modules|\.git|bin\/serve|README.md|package(-lock)?\.json/;
     chokidar.watch(args.dir, {ignored: ignored, ignoreInitial: true})
             .on('ready', (event, path) => { make('index.html'); })
             .on('all', (event, path) => { make(path); });
