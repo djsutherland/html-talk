@@ -1,5 +1,8 @@
 USE_LIVERELOAD ?= false
+USE_SYNC ?= false
+
 BIN := ${CURDIR}/node_modules/.bin
+
 .PHONY: all clean clean-html
 
 all: index.html css/djs.css
@@ -18,4 +21,4 @@ js/mj-plugin/%.js: js/mj-plugin-src/%.js
 	cd $(dir $<) && ${BIN}/tpl $*.js ../mj-plugin -- --dirname=${CURDIR}/$(dir $@)
 
 index.html: slides.pug layout.pug js/mj-plugin/fragments.js
-	${CURDIR}/bin/compile --livereload=${USE_LIVERELOAD}
+	${CURDIR}/bin/compile --livereload=${USE_LIVERELOAD} --sync=${USE_SYNC}

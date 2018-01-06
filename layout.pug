@@ -66,3 +66,5 @@ html(lang="en")
               { src: 'node_modules/reveal.js-menu/menu.js' }
           ]
       });
+    if (typeof use_sync !== 'undefined' && use_sync)
+      script(src="js/reveal-pug-sync.js")

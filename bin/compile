@@ -12,7 +12,7 @@ let args = minimist(process.argv, {
     'boolean': ['livereload', 'sync']
 });
 
-var pugOptions = {use_livereload: args.livereload};
+var pugOptions = {use_livereload: args.livereload, use_sync: args.sync};
 if (args.sync) {
     const pug_debug_line = require('pug-plugin-debug-line');
     pugOptions.plugins = [pug_debug_line()];

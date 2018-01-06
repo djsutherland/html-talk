@@ -6,13 +6,16 @@ const path = require('path');
 const split2 = require('split2');
 
 let args = minimist(process.argv, {
-    'default': {'port': 5000, 'lrport': 35729, 'dir': path.dirname(__dirname),
-                'http': true, 'watch': true},
-    'alias': {'p': 'port', 'd': 'dir'},
-    'boolean': ['http', 'watch']
+    'default': {port: 5000, lrport: 35729, syncport: 35730,
+                dir: path.dirname(__dirname),
+                http: true, watch: true, sync: true},
+    'alias': {p: 'port', d: 'dir'},
+    'boolean': ['http', 'watch', 'sync']
 });
 
-process.env.USE_LIVERELOAD = args.watch ? 'true' : 'false'; // inherited by make
+// set variables that'll be inherited by make
+process.env.USE_LIVERELOAD = args.watch ? 'true' : 'false';
+process.env.USE_SYNC = args.sync ? 'true' : 'false';
 
 // initial build
 child_process.spawnSync('make', [], {cwd: args.dir, stdio: 'inherit'});
@@ -29,6 +32,32 @@ if (args.http) {
     server.listen(args.port);
 }
 
+if (args.sync) {
+    const WebSocket = require('ws');
+    let syncserver = new WebSocket.Server({port: args.syncport});
+    console.log(`Sync server started (port ${args.syncport}).`);
+
+    syncserver.tellKind = function tellBrowsers(kind, command) {
+        syncserver.clients.forEach(function each(client) {
+            if (client.kind == kind && client.readyState === WebSocket.OPEN) {
+                client.send(command);
+            }
+        });
+    };
+
+    syncserver.on('connection', function connection(ws) {
+        ws.on('message', function incoming(data) {
+            console.log(data);
+            data = JSON.parse(data);
+            if (data[0] == "hello") {
+                ws.kind = data[1];
+            } else {
+                syncserver.tellKind(data[0], JSON.stringify(data.slice(1)));
+            }
+        });
+    });
+}
+
 if (args.watch) {
     const chokidar = require('chokidar');
     const livereload = require('livereload');
@@ -38,20 +67,14 @@ if (args.watch) {
     let lrserver = livereload.createServer({port: args.lrport});
     console.log(`LiveReload server started (port ${args.lrport}).\n`);
 
-
     // Don't want to run make synchronously here or else the servers will hang.
-    // So we only run one make at a time. When the make finishes, it refreshes the
-    // thing that kicked it off. Example:
+    // So we only run one make at a time. When the make finishes, it refreshes
+    // the thing that kicked it off. Example:
     //   - I edit slides.pug
-    //   - make (called by slides.pug): edits slides.html, index.html
+    //   - make (called by change to slides.pug): edits index.html
     //   - refresh slides.pug (does nothing)
-    //   - make (called by slides.html): doesn't change anything
-    //   - refresh slides.html (does nothing)
-    //   - make (called by index.html): doesn't change anything
+    //   - make (called by change to index.html): doesn't change anything
     //   - refresh index.html
-    // Those makes that don't change anything output annoying "nothing to be done",
-    // but otherwise are fine.
-
     let mutex = locks.createMutex();
     let makeOpts = {cwd: args.dir, stdio: ['inherit', 'pipe', 'inherit']};
     let make = (path) => {

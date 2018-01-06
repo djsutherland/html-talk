@@ -40,6 +40,7 @@
     "pug": "^2.0.0-rc.4",
     "pug-plugin-debug-line": "github:pugjs/pug-plugin-debug-line",
     "serve-static": "^1.13.1",
-    "split2": "^2.2.0"
+    "split2": "^2.2.0",
+    "ws": "^4.0.0"
   }
 }
