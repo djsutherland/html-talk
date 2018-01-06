@@ -37,8 +37,9 @@
     "minimist": "^1.2.0",
     "node-sass": "^4.7.2",
     "node-watch": "^0.5.5",
-    "pug": "^1.0.0-alpha6",
+    "pug": "^2.0.0-rc.4",
     "pug-plugin-debug-line": "github:pugjs/pug-plugin-debug-line",
-    "serve-static": "^1.13.1"
+    "serve-static": "^1.13.1",
+    "split2": "^2.2.0"
   }
 }
