@@ -6,6 +6,23 @@ MathJax.Hub.Register.StartupHook("TeX Jax Ready", function () {
         FRAGMENT_INDEX_attribute: function (name) {
             var d = {'class': 'fragment'};
 
+            // dumb manipulations to make template source valid js :(
+            if ('<%= sync %>' === 'true')  {
+                console.log();
+                console.log(this);
+                console.log(this.string);
+                console.log();
+                var last_newline = this.string.lastIndexOf("\n", this.i);
+                var col = this.i - last_newline + 1;
+
+                var line = 0;
+                while (last_newline != -1) {
+                    last_newline = this.string.lastIndexOf("\n", last_newline - 1);
+                    line++;
+                }
+                console.log(line + ' ' + col);
+            }
+
             var index = this.GetBrackets(name);
             if (index !== undefined && index !== '') {
                 d.attr = {'data-fragment-index': index};
