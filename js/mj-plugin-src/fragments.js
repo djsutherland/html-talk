@@ -4,13 +4,22 @@ MathJax.Hub.Register.StartupHook("TeX Jax Ready", function () {
     TeX.Definitions.Add({macros: {'fragment': 'FRAGMENT_INDEX_attribute'}});
     TeX.Parse.Augment({
         FRAGMENT_INDEX_attribute: function (name) {
-            var index = this.GetArgument(name);
+            var d = {'class': 'fragment'};
+
+            var index = this.GetBrackets(name);
+            if (index !== undefined && index !== '') {
+                d.attr = {'data-fragment-index': index};
+                d.attrNames = ['data-fragment-index'];
+            }
+
+            var extraclass = this.GetBrackets(name);
+            if (extraclass !== undefined) {
+                d.class += ' ' + extraclass;
+            }
+
             var arg = this.ParseArg(name);
-            this.Push(arg.With({
-                class: 'fragment',
-                attrNames: ['data-fragment-index'],
-                attr: {'data-fragment-index': index}
-            }));
+
+            this.Push(arg.With(d));
         }
     });
 });
