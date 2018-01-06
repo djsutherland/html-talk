@@ -25,9 +25,10 @@ function findPugElement(file, line, col) {
     queryAll('[data-pug-file="' + file + '"]').forEach(function (obj) {
         var objLine = parseInt(obj.dataset.pugLine, 10),
             objCol = parseInt(obj.dataset.pugColumn, 10);
-        // Intentionally be lax about column matching
+        // Intentionally be lax about column matching,
+        // and intentionally take the last one on a tie.
         if (objLine <= line && (objLine > maxLine ||
-                (objLine == maxLine && objCol <= col && objCol > maxCol))) {
+                (objLine == maxLine && objCol <= col && objCol >= maxCol))) {
             max = obj;
             maxLine = objLine;
             maxCol = objCol;
@@ -49,13 +50,37 @@ function slideToElement(elt) {
         // If the object isn't currently visible, try out all the fragment
         // indices that might possibly affect it until it is.
         while (fragment !== null && !elt.classList.contains("visible")) {
-            Reveal.navigateFragment(fragment.dataset.fragmentIndex);
+            // Hack for mathjax fragments: first try the max index inside
+            // this element, if we've defined one (in the function below).
+            if (fragment.dataset.maxFragmentIndex !== undefined) {
+                Reveal.navigateFragment(fragment.dataset.maxFragmentIndex);
+                if (elt.classList.contains("visible")) {
+                    break;
+                }
+            }
+            var f = parseInt(fragment.dataset.fragmentIndex, 10);
+            Reveal.navigateFragment(f);
             fragment = fragment.parentNode.closest('section .fragment');
         }
         // Well, hopefully the element is visible now.
     }
 }
 
+// Patch up elements (from mathjax) that have a fragment class but no pug data
+ready(function() {
+    queryAll(".fragment:not([data-pug-file])").forEach(function (elt) {
+        var parent = elt.closest("[data-pug-file]");
+        elt.dataset.pugFile = parent.dataset.pugFile;
+        elt.dataset.pugLine = parent.dataset.pugLine;
+        elt.dataset.pugColumn = parent.dataset.pugColumn;
+
+        var f = parseInt(elt.dataset.fragmentIndex, 10);
+        if (parent.dataset.maxFragmentIndex === undefined ||
+                parent.dataset.maxFragmentIndex < f) {
+            parent.dataset.maxFragmentIndex = elt.dataset.fragmentIndex;
+        }
+    });
+});
 
 var socket = new WebSocket(
     'ws://' + (location.host || 'localhost').split(':')[0] + ':35730');
@@ -66,7 +91,7 @@ socket.addEventListener('open', function() {
 
     ready(function() {
         // Handle commands from the sync server
-        socket.onmessage = function(event) {
+        socket.onmessage = function (event) {
             var msg = JSON.parse(event.data);
 
             switch (msg[0]) {
@@ -83,7 +108,7 @@ socket.addEventListener('open', function() {
 
         // Set up listeners to send commands to the sync server
         queryAll('.slides [data-pug-line]').forEach(function (elt) {
-            elt.addEventListener('click', function(evt) {
+            elt.addEventListener('click', function (evt) {
                 if (evt.shiftKey && (evt.metaKey || evt.ctrlKey)) {
                     msg = JSON.stringify([
                         'editor', 'scroll-to',
