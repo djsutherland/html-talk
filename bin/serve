@@ -15,7 +15,9 @@ let args = minimist(process.argv, {
 process.env.USE_LIVERELOAD = args.watch ? 'true' : 'false'; // inherited by make
 
 // initial build
-child_process.spawnSync('make', [], {cwd: args.dir, stdio: 'inherit'});
+console.log("Initial build:");
+child_process.spawnSync(
+    'make', ['clean-html', 'all'], {cwd: args.dir, stdio: 'inherit'});
 console.log();
 
 // start web server
