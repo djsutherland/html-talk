@@ -76,6 +76,8 @@ if (args.sync) {
             data = JSON.parse(data);
             if (data[0] == "hello") {
                 ws.kind = data[1];
+            } else if (data[0] == "error") {
+                console.error("Sync error: " + JSON.stringify(data.slice(1)));
             } else if (data[0] == "editor" && data[1] == "scroll-to") {
                 let file = data[2], line = data[3], column = data[4];
                 scrollEditorTo(file, line, column);

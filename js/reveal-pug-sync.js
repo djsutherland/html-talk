@@ -22,6 +22,9 @@ if (window.NodeList && !NodeList.prototype.forEach) {
 
 function findPugElement(file, line, col) {
     var max, maxLine = -1, maxCol = -1;
+    var min, minLine = Infinity, minCol = Infinity;
+    // If we're in a file that produced any elements, but before the first
+    // one, then go to the first in that file.
     queryAll('[data-pug-file="' + file + '"]').forEach(function (obj) {
         var objLine = parseInt(obj.dataset.pugLine, 10),
             objCol = parseInt(obj.dataset.pugColumn, 10);
@@ -33,11 +36,25 @@ function findPugElement(file, line, col) {
             maxLine = objLine;
             maxCol = objCol;
         }
+
+        if (max === undefined && (objLine < minLine ||
+                (objLine == minLine && objCol < minCol))) {
+            min = obj;
+            minLine = objLine;
+            minCol = objCol;
+        }
     });
-    return max;
+    if (max !== undefined) {
+        return max;
+    } else {
+        return min;
+    }
 }
 
 function slideToElement(elt) {
+    if (elt === undefined) {
+        return;
+    }
     var slide = elt.closest("section");
     var inds = Reveal.getIndices(slide);
     Reveal.slide(inds.h, inds.v);
@@ -96,13 +113,16 @@ socket.addEventListener('open', function() {
 
             switch (msg[0]) {
                 case "slide-to":
-                    var file = msg[1],
-                        line = parseInt(msg[2], 10),
-                        col = parseInt(msg[3], 10);
-                    slideToElement(findPugElement(file, line, col));
+                    var elt = findPugElement(msg[1], msg[2], msg[3]);
+                    if (elt === undefined) {
+                        socket.send(JSON.stringify([
+                            "error", "bad-element", msg[1], msg[2], msg[3]]));
+                    } else {
+                        slideToElement(elt);
+                    }
                     break;
                 default:
-                    console.log("Unknown command " + msg[1]);
+                    console.error("Unknown command " + msg[0]);
             }
         };
 

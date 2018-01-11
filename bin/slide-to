@@ -1,0 +1,44 @@
+#!/usr/bin/env node
+
+const minimist = require('minimist');
+const path = require('path');
+const WebSocket = require('ws');
+
+const args = minimist(process.argv.slice(2), {
+    'default': {syncport: 35730,
+                file: path.join(__dirname, '..', 'slides.pug'),
+                col: 1},
+    'alias': {p: 'syncport', f: 'file', l: 'line', c: 'col'},
+});
+
+let file = path.normalize(args.file),
+    line = parseInt(args.line, 10),
+    col = parseInt(args.col, 10);
+
+if (!path.isAbsolute(file)) {
+    file = path.join(process.cwd(), file);
+}
+if (isNaN(line) || line <= 0) {
+    console.error(`line must be a positive integer; got '${line}'`);
+    process.exit(1);
+}
+if (isNaN(col) || col <= 0) {
+    console.error(`col must be a positive integer; got '${col}'`);
+    process.exit(1);
+}
+
+const ws = new WebSocket(`ws://localhost:${args.syncport}`);
+ws.on('open', () => {
+    ws.send(JSON.stringify(['browser', 'slide-to', file, line, col]), (e) => {
+        if (e === undefined) {
+            process.exit(0);
+        } else {
+            console.error(e);
+            process.exit(2);
+        }
+    });
+});
+ws.on('error', (e) => {
+    console.error(e);
+    process.exit(3);
+});
