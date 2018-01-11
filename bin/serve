@@ -8,7 +8,8 @@ const split2 = require('split2');
 let args = minimist(process.argv, {
     'default': {port: 5000, lrport: 35729, syncport: 35730,
                 dir: path.dirname(__dirname),
-                http: true, watch: true, sync: true},
+                http: true, watch: true, sync: true,
+                editor: "subl"},
     'alias': {p: 'port', d: 'dir'},
     'boolean': ['http', 'watch', 'sync']
 });
@@ -34,13 +35,36 @@ if (args.http) {
     server.listen(args.port);
 }
 
+
+let scrollEditorTo;
+switch (args.editor) {
+    case "subl":
+        scrollEditorTo = (file, line, column) => {
+            child_process.spawn(
+                'subla', [`${file}:${line}:${column}`], {stdio: 'inherit'})
+                .on('close', (code) => {
+                    if (code != 0) {
+                        console.error(`subl gave return code ${code}...`);
+                    }
+                })
+                .on('error', (e) => {
+                    console.error(`Couldn't call subl: ${e}`);
+                });
+        };
+        break;
+    default:
+        console.error(`Unknown editor ${args.editor}`);
+        scrollEditorTo = (file, line, column) => {};
+        break;
+}
+
 if (args.sync) {
     const WebSocket = require('ws');
     let syncserver = new WebSocket.Server({port: args.syncport});
     console.log(`Sync server started (port ${args.syncport}).`);
 
     syncserver.tellKind = function tellBrowsers(kind, command) {
-        syncserver.clients.forEach(function each(client) {
+        syncserver.clients.forEach((client) => {
             if (client.kind == kind && client.readyState === WebSocket.OPEN) {
                 client.send(command);
             }
@@ -48,11 +72,13 @@ if (args.sync) {
     };
 
     syncserver.on('connection', function connection(ws) {
-        ws.on('message', function incoming(data) {
-            console.log(data);
+        ws.on('message', (data) => {
             data = JSON.parse(data);
             if (data[0] == "hello") {
                 ws.kind = data[1];
+            } else if (data[0] == "editor" && data[1] == "scroll-to") {
+                let file = data[2], line = data[3], column = data[4];
+                scrollEditorTo(file, line, column);
             } else {
                 syncserver.tellKind(data[0], JSON.stringify(data.slice(1)));
             }
