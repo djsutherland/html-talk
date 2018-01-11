@@ -18,7 +18,9 @@ process.env.USE_LIVERELOAD = args.watch ? 'true' : 'false';
 process.env.USE_SYNC = args.sync ? 'true' : 'false';
 
 // initial build
-child_process.spawnSync('make', [], {cwd: args.dir, stdio: 'inherit'});
+console.log("Initial build:");
+child_process.spawnSync(
+    'make', ['clean-html', 'all'], {cwd: args.dir, stdio: 'inherit'});
 console.log();
 
 // start web server
