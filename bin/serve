@@ -57,6 +57,14 @@ if (args.sync) {
                 syncserver.tellKind(data[0], JSON.stringify(data.slice(1)));
             }
         });
+        ws.on('error', (e) => {
+            switch (e.code) {
+                default:
+                    console.log(`client error: ${e}`);
+                    break;
+                case "ECONNRESET": break;
+            }
+        });
     });
 }
 
