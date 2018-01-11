@@ -41,10 +41,10 @@ switch (args.editor) {
     case "subl":
         scrollEditorTo = (file, line, column) => {
             child_process.spawn(
-                'subla', [`${file}:${line}:${column}`], {stdio: 'inherit'})
+                'subl', [`${file}:${line}:${column}`], {stdio: 'inherit'})
                 .on('close', (code) => {
                     if (code != 0) {
-                        console.error(`subl gave return code ${code}...`);
+                        console.error(`subl returned code ${code}...`);
                     }
                 })
                 .on('error', (e) => {
