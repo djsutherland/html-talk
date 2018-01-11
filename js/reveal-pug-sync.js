@@ -56,6 +56,9 @@ function slideToElement(elt) {
         return;
     }
     var slide = elt.closest("section");
+    if (slide === undefined) {
+        return;
+    }
     var inds = Reveal.getIndices(slide);
     Reveal.slide(inds.h, inds.v);
 
@@ -64,13 +67,21 @@ function slideToElement(elt) {
     var nFragments = slide.querySelectorAll('.fragment').length;
     if (nFragments != 0) {
         var fragment = elt.closest('section .fragment');
+
+        if (fragment === null && elt.dataset.maxFragmentIndex !== undefined) {
+            // This isn't a fragment itself, but it contains some mathjax
+            // fragments. Try to make sure they're shown.
+            Reveal.navigateFragment(parseInt(elt.dataset.maxFragmentIndex, 10));
+        }
+
         // If the object isn't currently visible, try out all the fragment
         // indices that might possibly affect it until it is.
         while (fragment !== null && !elt.classList.contains("visible")) {
             // Hack for mathjax fragments: first try the max index inside
             // this element, if we've defined one (in the function below).
             if (fragment.dataset.maxFragmentIndex !== undefined) {
-                Reveal.navigateFragment(fragment.dataset.maxFragmentIndex);
+                let f = parseInt(fragment.dataset.maxFragmentIndex, 10);
+                Reveal.navigateFragment(f);
                 if (elt.classList.contains("visible")) {
                     break;
                 }
@@ -93,7 +104,7 @@ ready(function() {
 
         var f = parseInt(elt.dataset.fragmentIndex, 10);
         if (parent.dataset.maxFragmentIndex === undefined ||
-                parent.dataset.maxFragmentIndex < f) {
+                parseInt(parent.dataset.maxFragmentIndex, 10) < f) {
             parent.dataset.maxFragmentIndex = elt.dataset.fragmentIndex;
         }
     });
