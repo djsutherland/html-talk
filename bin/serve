@@ -119,7 +119,7 @@ if (args.watch) {
         mutex.lock(() => {
             let make = child_process.spawn('make', [], makeOpts);
             make.stdout.pipe(split2()).on('data', (line) => {
-                if (line != "make: Nothing to be done for `all'.") {
+                if (!line.match(/make: Nothing to be done for [`']all'\./)) {
                     console.log(line);
                 }
             });
