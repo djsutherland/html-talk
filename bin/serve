@@ -130,7 +130,7 @@ if (args.watch) {
         });
     };
 
-    let ignored = /node_modules|\.git|bin\/serve|README.md|package(-lock)?\.json/;
+    let ignored = /node_modules|\.git|bin\/serve|README.md|package(-lock)?\.json|.*\.sublime-.*$/;
     chokidar.watch(args.dir, {ignored: ignored, ignoreInitial: true})
             .on('ready', (event, path) => { make('index.html'); })
             .on('all', (event, path) => { make(path); });
