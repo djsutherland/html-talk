@@ -59,9 +59,12 @@ html(lang="en")
 
           // More info https://github.com/hakimel/reveal.js#dependencies
           dependencies: [
+              // Don't need markdown plugins, because Pug is nicer.
               // { src: 'node_modules/reveal.js/plugin/markdown/marked.js' },
               // { src: 'node_modules/reveal.js/plugin/markdown/markdown.js' },
               { src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true },
+              // If you're using syntax highlighting, you might need to
+              // uncomment the zenburn CSS line above.
               // { src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
               { src: 'node_modules/reveal.js-menu/menu.js' }
           ]
