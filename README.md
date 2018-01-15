@@ -14,8 +14,8 @@ Using it:
 - To build it just once, without putting in the livereload support: `npm run build`. (This just runs `make`; you can do that too.)
 - Once it's built, you can use `index.html`; everything should work just opening that file except for the timer in the speaker notes. Use `npm run serve` to start a web browser if you want that.
 - To continually rebuild as you change files, including livereload in the browser and biderectional sync: `npm run watch`. This will run a web server too unless you tell it not to: `npm run watch -- --http=false`. (You need the `--` to tell `npm` to pass the arguments along to the subcommand, unfortunately.)
-  - For sync from browser to editor: currently only the `subl` command, for Sublime Text, is supported, but it's easy to add others.
-  - For sync from editor to browser: the core workhorse is the `bin/slide-to` command; you'll want to configure your editor to call that with the current file/line/column. See [`support/sublime`](support/sublime/) for how to do that with Sublime.
+  - For sync from browser to editor: the `npm run watch` command needs to know what editor command to call. Set the environment variable `TALK_EDITOR` to one of `subl`, `gvim`, or `mvim` (default `subl`). It's easy to add support for other editors (PRs welcome); see the `scrollEditorTo` section in [`bin/serve`](bin/serve). Then, shift-command / shift-super / shift-control click on an object in the webpage will run that command.
+  - For sync from editor to browser: the core workhorse is the `bin/slide-to` command. You'll want to configure your editor to call that with the current file/line/column. See [`support/sublime`](support/sublime/) for how to do that with Sublime (which unfortunately requires a stupid plugin I wrote), or [`support/vim`](support/vim/) for doing it with Vim (which is easier).
 - When you're done and want to put just the rendered talk somewhere, without pulling in 100mb of dependencies:
   - run `npm run bundle` to make a `.tgz` file
   - `tar xf html-talk-0.1.0.tgz --strip-components=1` to extract it somewhere

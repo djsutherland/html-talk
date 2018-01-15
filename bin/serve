@@ -9,7 +9,7 @@ let args = minimist(process.argv, {
     'default': {port: 5000, lrport: 35729, syncport: 35730,
                 dir: path.dirname(__dirname),
                 http: true, watch: true, sync: true,
-                editor: "subl"},
+                editor: process.env.TALK_EDITOR || "subl"},
     'alias': {p: 'port', d: 'dir'},
     'boolean': ['http', 'watch', 'sync']
 });
@@ -36,20 +36,34 @@ if (args.http) {
 }
 
 
+function runEditorCommand(cmd, args) {
+    child_process
+        .spawn(cmd, args, {stdio: 'inherit'})
+        .on('close', (code) => {
+            if (code != 0) {
+                console.error(`${cmd} returned code ${code}...`);
+            }
+        })
+        .on('error', (e) => {
+            console.error(`Couldn't call subl: ${e}`);
+        });
+}
+
 let scrollEditorTo;
 switch (args.editor) {
     case "subl":
         scrollEditorTo = (file, line, column) => {
-            child_process.spawn(
-                'subl', [`${file}:${line}:${column}`], {stdio: 'inherit'})
-                .on('close', (code) => {
-                    if (code != 0) {
-                        console.error(`subl returned code ${code}...`);
-                    }
-                })
-                .on('error', (e) => {
-                    console.error(`Couldn't call subl: ${e}`);
-                });
+            runEditorCommand(args.editor, [`${file}:${line}:${column}`]);
+        };
+        break;
+    case "gvim":
+    case "mvim":
+        scrollEditorTo = (file, line, column) => {
+            runEditorCommand(
+                args.editor,
+                ['--remote-silent',
+                 `+call cursor(${line}, ${column})`, file],
+                 {stdio: 'inherit'});
         };
         break;
     default:
