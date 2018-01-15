@@ -7,10 +7,10 @@ $ cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages
 # on Linux:
 $ cd ~/.config/sublime-text-3/Packages
 # then:
-git clone https://github.com/dougalsutherland/Sublime-RunWithFileLine RunWithFileLine
+$ git clone https://github.com/dougalsutherland/Sublime-RunWithFileLine RunWithFileLine
 ```
 
-- Make sure you have the Pug syntax setting from Package Control.
+- Make sure you have [the Pug syntax](https://packagecontrol.io/packages/Pug) from Package Control.
 
 - You'll need to be editing the talk in a Sublime project. One way to do that is to create a `YOUR_TALK_NAME.sublime-project` file in the root of the repo, with the following contents, then open the project by double-clicking on it in the GUI or using `subl --project YOUR_TALK_NAME.sublime-project`:
 ```json

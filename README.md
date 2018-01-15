@@ -6,27 +6,31 @@ A base for talks using [reveal.js](http://lab.hakim.se/reveal-js/).
 - Live-reload (with [node-livereload](https://github.com/napcs/node-livereload)) with extra features:
   - Shift-control (or shift-command) click somewhere in the presentation, and open the source in your editor!
   - Keyboard shortcut in your editor to jump to that point in the presentation!
-  - Set up to work with a Makefile, because that's way easier (for me at least) to customize to e.g. run Python code to make figures than Grunt/Gulp/whatever.
 - Pull in reveal.js and other dependencies via npm, instead of writing your presentation in a reveal.js fork like many people seem to do.
 - Easily customize the theme settings in the SCSS template ([scss/djs.scss](scss/djs.scss)).
+- Build with a Makefile: Grunt/Gulp/whatever are fine, but I had so much trouble getting them to e.g. run Python code to make a figure only if the sources have changed. Tried and true Make just feels right.
 
 ## Setup
 - Make sure you have at least `node` version 6 (preferably version 8); you might like [nvm](https://github.com/creationix/nvm) or, if you use `zsh`, especially [zsh-nvm](https://github.com/lukechilds/zsh-nvm).
 - Clone the repo somewhere. I like to work on a different branch for my actual talks:
 ```
 git clone https://github.com/dougalsutherland/html-talk awesome-talk
-cd awesome talk
+cd awesome-talk
 git checkout -b nobel-lecture
 ```
 - Install the dependencies: `npm install`.
 
 ## Using it
-- Edit `slides.pug` to write your slides. Pug syntax is relatively straightforward, and the examples there should get you most of the way through the basics; full docs are at [pugjs.org](https://pugjs.org).
-- To build `index.html` from your slides, you have some options.
+Edit `slides.pug` to write your slides. Pug syntax is relatively straightforward, and the examples there should get you most of the way through the basics; full docs are at [pugjs.org](https://pugjs.org).
+
+`reveal.js` configuration options are set in [`layout.pug`](layout.pug), near the bottom. Note that it's actually using my `reveal.js` fork with the `fragmentInURL` option added ([PR](https://github.com/hakimel/reveal.js/pull/2062)); this makes livereload when you're using fragments *much* nicer, but if you don't care about that, you can easily change `package.json` to use the upstream source and drop that line.
+
+A few things of note: I set `controls: false` and map the up/down arrow keys to be like spacebar / the opposite of spacebar, i.e. down steps down if you're in a vertical stack and right otherwise, because that works better with most pointer remotes. I also include the [`reveal.js-menu`](https://github.com/denehyg/reveal.js-menu) plugin; press `m` to access it to jump around between slides much more nicely.
+
+To build `index.html` from your slides, you have some options.
 
 ### Boring way
-- `npm run build` will make `index.html` from `slides.pug`. (This just runs `make`; you can do that too.)
-- You can then just open `index.html` in a browser. Everything should work there **except** for the timer in the speaker notes.
+`npm run build` will make `index.html` from `slides.pug`. (This just runs `make`; you can do that too.) You can then just open `index.html` in a browser. Everything should work there **except** for the timer in the speaker notes.
 
 ### Web server
 To get the speaker notes timer to work, run a webserver: `npm run serve`.
@@ -52,6 +56,8 @@ The core part of this is the [`bin/slide-to`](bin/slide-to) command, which when 
 You'll want to configure your editor to call this:
 - Sublime Text: see [`support/sublime`](support/sublime/README.md). It unfortunately requires a stupid plugin that I wrote.
 - Vim: see [`support/vim`](support/vim/README.md); this is pretty easy.
+
+If you want this in another editor: see if the Vim-type approach is possible. If not, you can either follow the approach like I did here with Sublime of calling `bin/slide-to`, or write an extension that makes a websocket call: `slide-to` without the error handling is just sending a single websocket message, and that might be easier for you to do directly.
 
 ### Distributing a final version of the talk
 If you want to distribute just the rendered talk, without the 100mb of dependencies to build it:
