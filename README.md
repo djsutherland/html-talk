@@ -10,6 +10,7 @@ A base for a talk using [reveal.js](http://lab.hakim.se/reveal-js/). Features:
 
 Using it:
 
+- Make sure you have at least `node` version 6 (preferably version 8); you might like [nvm](https://github.com/creationix/nvm) or, if you use `zsh`, especially [zsh-nvm](https://github.com/lukechilds/zsh-nvm).
 - To install dependencies: `npm install`.
 - To build it just once, without putting in the livereload support: `npm run build`. (This just runs `make`; you can do that too.)
 - Once it's built, you can use `index.html`; everything should work just opening that file except for the timer in the speaker notes. Use `npm run serve` to start a web browser if you want that.
