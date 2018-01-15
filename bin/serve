@@ -45,7 +45,7 @@ function runEditorCommand(cmd, args) {
             }
         })
         .on('error', (e) => {
-            console.error(`Couldn't call subl: ${e}`);
+            console.error(`Couldn't call ${cmd}: ${e}`);
         });
 }
 
