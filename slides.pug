@@ -30,9 +30,17 @@ block slides
 
   section
     h2 Slide 2
-    p
-      | TODO: I should add support for Instant-Presentation, to do speech recognition => Google Image search => show on screen
-      +sref("McCann SIGBOVIK-12", "https://github.com/ixchow/Instant-Presentation")
+    ul
+      li
+        | Future work:
+        ul
+          li Add speech recognition &rarr; image search &rarr; display
+          ul: li
+            | Like Instant-Presentation
+            +srefs("McCann SIGBOVIK-12", "https://github.com/ixchow/Instant-Presentation")
+            | and Last-Second-Slides
+            +sref("Mailhot/Hume TerribleHacks-16", "https://github.com/trishume/LastSecondSlides")
+
     span.fragment $$ \int \sum e_i \otimes k(x, \cdot) $$
 
   section
