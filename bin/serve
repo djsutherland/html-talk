@@ -81,7 +81,7 @@ if (args.sync) {
     let syncserver = new WebSocket.Server({port: args.syncport});
     console.log(`Sync server started (port ${args.syncport}).`);
 
-    syncserver.tellKind = function tellBrowsers(kind, command) {
+    syncserver.tellKind = (kind, command) => {
         syncserver.clients.forEach((client) => {
             if (client.kind == kind && client.readyState === WebSocket.OPEN) {
                 client.send(command);
@@ -89,7 +89,7 @@ if (args.sync) {
         });
     };
 
-    syncserver.on('connection', function connection(ws) {
+    syncserver.on('connection', (ws) => {
         ws.on('message', (data) => {
             data = JSON.parse(data);
             if (data[0] == "hello") {
