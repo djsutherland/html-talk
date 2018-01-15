@@ -61,9 +61,13 @@ switch (args.editor) {
         scrollEditorTo = (file, line, column) => {
             runEditorCommand(
                 args.editor,
-                ['--remote-silent',
-                 `+call cursor(${line}, ${column})`, file],
-                 {stdio: 'inherit'});
+                ['--remote-silent', `+call cursor(${line}, ${column})`, file]);
+        };
+        break;
+    case "kate":
+        scrollEditorTo = (file, line, column) => {
+            runEditorCommand(
+                args.editor, ['--use', '--line', line, '--column', column]);
         };
         break;
     default:
