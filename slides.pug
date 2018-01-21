@@ -1,21 +1,11 @@
 extends layout.pug
 
-//- Small helpers for formatting citations, plus whitespace around them...
+//- Small helper for formatting citations
 mixin ref(name, href)
   span.cite
     | [
     a(href=href)= name
     | ]
-mixin sref(name, href)
-  = ' '
-  +ref(name, href)
-mixin refs(name, href)
-  +ref(name, href)
-  = ' '
-mixin srefs(name, href)
-  = ' '
-  +ref(name, href)
-  = ' '
 
 block title
   title Title tag for the slides
@@ -35,11 +25,11 @@ block slides
         | Future work:
         ul
           li Add speech recognition &rarr; image search &rarr; display
-          ul: li
-            | Like Instant-Presentation
-            +srefs("McCann SIGBOVIK-12", "https://github.com/ixchow/Instant-Presentation")
-            | and Last-Second-Slides
-            +sref("Mailhot/Hume TerribleHacks-16", "https://github.com/trishume/LastSecondSlides")
+          ul: li.
+            Like Instant-Presentation
+            #[+ref("McCann SIGBOVIK-12", "https://github.com/ixchow/Instant-Presentation")]
+            and Last-Second-Slides
+            #[+ref("Mailhot/Hume TerribleHacks-16", "https://github.com/trishume/LastSecondSlides")]
 
     span.fragment $$ \int \sum e_i \otimes k(x, \cdot) $$
 
