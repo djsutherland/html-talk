@@ -31,7 +31,9 @@ html(lang="en")
     if (typeof use_livereload !== 'undefined' && use_livereload)
       script.
         use_livereload = true;
-        document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
+        var script = document.createElement('script');
+        script.src = 'http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1';
+        document.getElementsByTagName('body')[0].appendChild(script);
     else
       script.
         use_livereload = false;
