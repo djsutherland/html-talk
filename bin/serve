@@ -142,6 +142,9 @@ if (args.watch) {
                 }
             });
             make.on('exit', (code) => {
+                if (code != 0) {
+                    console.error(String.fromCharCode(7));
+                }
                 lrserver.refresh(path);
                 mutex.unlock();
             });
