@@ -68,7 +68,10 @@ html(lang="en")
               // If you're using syntax highlighting, you might need to
               // uncomment the zenburn CSS line above.
               // { src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-              { src: 'node_modules/reveal.js-menu/menu.js' }
+              { src: 'node_modules/reveal.js-menu/menu.js' },
+
+              // Handles automatic video playing
+              { src: 'js/video-autoplay.js' }
           ]
       });
     if (typeof use_sync !== 'undefined' && use_sync)
