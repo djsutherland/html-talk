@@ -6,6 +6,16 @@
 # Too much annoying
 /package-lock.json
 
+# things that should be in people's global gitignores
+.DS_Store
+*~
+.#*
+.*.swp
+~$*
+.subl*.tmp
+.nfs*
+.ipynb_checkpoints
+
 # Logs
 logs
 *.log
