@@ -38,6 +38,25 @@ html(lang="en")
       script.
         use_livereload = false;
     script.
+      // Functions to skip to next/previous slide
+      // Based on rejected PR: https://github.com/hakimel/reveal.js/pull/371
+      function next_slide() {
+          var idx = Reveal.getIndices();
+          if (Reveal.availableRoutes().down) {
+              Reveal.slide(idx.h, idx.v + 1);
+          } else if (Reveal.availableRoutes().right) {
+              Reveal.slide(idx.h + 1);
+          }
+      }
+      function prev_slide() {
+          var idx = Reveal.getIndices();
+          if (Reveal.availableRoutes().up) {
+              Reveal.slide(idx.h, idx.v - 1);
+          } else if (Reveal.availableRoutes().left) {
+              Reveal.slide(idx.h - 1);
+          }
+      }
+
       // More info: https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
           history: true,
@@ -46,7 +65,9 @@ html(lang="en")
 
           keyboard: {
               40: 'next',  // down arrow: act like spacebar
-              38: 'prev'   // up arrow: opposite of down arrow
+              38: 'prev',  // up arrow: opposite of down arrow
+              33: prev_slide, // page up: previous slide
+              34: next_slide  // page down: next slide
           },
 
           menu: {
