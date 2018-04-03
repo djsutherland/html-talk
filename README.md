@@ -60,13 +60,13 @@ You'll want to configure your editor to call this:
 If you want this in another editor: see if the Vim-type approach is possible. If not, you can either follow the approach like I did here with Sublime of calling `bin/slide-to`, or write an extension that makes a websocket call: `slide-to` without the error handling is just sending a single websocket message, and that might be easier for you to do directly.
 
 ### Distributing a final version of the talk
-If you want to distribute just the rendered talk, without the 100mb of dependencies to build it:
+If you want to distribute just the rendered talk, without the 100mb of dependencies to build it, `npm run deploy` will put a version in `./deployed`.
 
-- Run `npm run bundle` to make a `.tgz` file.
-- Check that the `.tgz` includes everything you want (`tar tf html-talk-0.1.0.tgz | less`); it'll include only `index.html` and the `css`, `img`, `js` directories by default, along with `reveal.js` and `reveal.js-menu` sources.
+- `npm run deploy -- TARGET_DIR` will put it in `TARGET_DIR` instead; add `-f` to the end to delete existing content in `TARGET_DIR`.
+- Check that it includes everything you want; it'll include only `index.html` and the `css`, `img`, `js` directories by default, along with `reveal.js` and `reveal.js-menu` sources.
   - If you need any other files at runtime, fiddle with the `.npmignore` files to make sure they're included.
   - If you added any `npm` dependencies that you need for the talk, add them to `bundledDependencies` in `package.json` (and make sure they're in `dependencies`, not `devDependencies`).
-- Run `tar xf html-talk-0.1.0.tgz --strip-components=1` to extract it somewhere (a webserver directory).
+- This is mostly a wrapper around `npm run bundle` (which just calls `npm pack`); you can just run that to get a `.tgz` if you prefer.
 
 ### Offline use
 For fully offline use, install the fonts. On Mac, with homebrew:

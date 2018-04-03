@@ -1,0 +1,36 @@
+#!/bin/bash
+set -e
+shopt -s nullglob dotglob
+
+FORCE=0
+TARGET=./deployed
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -f|--force) FORCE=1; shift 1;;
+
+        -*) echo "unknown option: $1" >&2; exit 1;;
+        *) TARGET="$1"; shift 1;;
+    esac
+done
+
+files=($TARGET/*)
+if [[ ${#files} -gt 0 || ( -e $TARGET && ! -d $TARGET ) ]]; then
+    if [[ $FORCE -gt 0 || $TARGET == "./deployed" ]]; then
+        rm -rf $TARGET
+    else
+        echo "ERROR: target $TARGET exists; use -f to overwrite" >&2
+        exit 2
+    fi
+fi
+mkdir -p $TARGET
+
+npm run bundle
+f=(html-talk-*.tgz)
+if [[ ${#f[@]} -ne 1 ]]; then
+    echo "Something went wrong :(" >&2
+    exit 3
+fi
+tar xf "${f[0]}" -C $TARGET --strip-components=1
+rm "${f[0]}"
+
+echo "Deployed to $TARGET"

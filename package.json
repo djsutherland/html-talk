@@ -15,6 +15,7 @@
     "build": "make clean-html all",
     "bundle": "npm install --only=prod && npm pack",
     "clean": "make clean",
+    "deploy": "bin/deploy",
     "prepare": "npm run build",
     "serve": "bin/serve --watch=false --sync=false",
     "watch": "bin/serve"
