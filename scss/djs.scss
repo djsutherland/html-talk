@@ -50,6 +50,27 @@ $heading4Size: 1.0em;
     li {
         margin-bottom: 1ex;
     }
+    .cite {
+        font-size: 60%;
+    }
+
+    img.border {
+        border: 4px solid $mainColor;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        background: rgba(255, 255, 255, 0.12);
+    }
+    img {
+        border: 0;
+        box-shadow: none;
+        background: none;
+    }
+
+    .top    { vertical-align: top;    }
+    .middle { vertical-align: middle; }
+    .bottom { vertical-align: bottom; }
+    .left   { text-align: left;   }
+    .center { text-align: center; }
+    .right  { text-align: right;  }
 
     .block-left {
         display: inline-block;
@@ -73,3 +94,5 @@ $heading4Size: 1.0em;
         font-family: 'Inconsolata', monospace;
     }
 }
+
+// .reveal .slides { border: 1px solid red; }
