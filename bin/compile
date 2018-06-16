@@ -7,12 +7,14 @@ const path = require('path');
 const pug = require('pug');
 
 let args = minimist(process.argv, {
-    'default': {dir: path.dirname(__dirname), livereload: false, sync: false},
+    'default': {dir: path.dirname(__dirname),
+                livereload: false, sync: false, for_web: false},
     'alias': {d: 'dir'},
-    'boolean': ['livereload', 'sync']
+    'boolean': ['livereload', 'sync', 'for_web']
 });
 
-var pugOptions = {use_livereload: args.livereload, use_sync: args.sync};
+var pugOptions = {use_livereload: args.livereload, use_sync: args.sync,
+                  for_web: args.for_web};
 if (args.sync) {
     const pug_debug_line = require('pug-plugin-debug-line');
     pugOptions.plugins = [pug_debug_line()];

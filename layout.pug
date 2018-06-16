@@ -1,4 +1,7 @@
 doctype html
+- if (typeof use_livereload === 'undefined') use_livereload = false;
+- if (typeof use_sync === 'undefined') use_sync = false;
+- if (typeof for_web === 'undefined') for_web = false;
 html(lang="en")
   head
     block title
@@ -28,15 +31,11 @@ html(lang="en")
 
     script(src="node_modules/reveal.js/lib/js/head.min.js")
     script(src="node_modules/reveal.js/js/reveal.js")
-    if (typeof use_livereload !== 'undefined' && use_livereload)
+    if (use_livereload)
       script.
-        use_livereload = true;
         var script = document.createElement('script');
         script.src = 'http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1';
         document.getElementsByTagName('body')[0].appendChild(script);
-    else
-      script.
-        use_livereload = false;
     script.
       // Functions to skip to next/previous slide
       // Based on rejected PR: https://github.com/hakimel/reveal.js/pull/371
@@ -74,8 +73,9 @@ html(lang="en")
       // More info: https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
           history: true,
-          progress: true,
-          controls: false,
+          progress: false,
+          controls: #{for_web ? "true" : "false"},
+          slideNumber: false,
 
           keyboard: {
               40: 'next',  // down arrow: act like spacebar
@@ -92,7 +92,7 @@ html(lang="en")
               numbers: true
           },
 
-          fragmentInURL: use_livereload,
+          fragmentInURL: #{use_livereload ? "true" : "false"},
 
           // More info https://github.com/hakimel/reveal.js#dependencies
           dependencies: [
@@ -109,5 +109,5 @@ html(lang="en")
               { src: 'js/video-autoplay.js' }
           ]
       });
-    if (typeof use_sync !== 'undefined' && use_sync)
+    if (use_sync)
       script(src="js/reveal-pug-sync.js")

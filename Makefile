@@ -1,5 +1,6 @@
 USE_LIVERELOAD ?= false
 USE_SYNC ?= false
+FOR_WEB ?= false
 
 BIN := ${CURDIR}/node_modules/.bin
 
@@ -21,4 +22,4 @@ js/mj-plugin/%.js: js/mj-plugin-src/%.js
 	cd $(dir $<) && ${BIN}/tpl $*.js ../mj-plugin -- --dirname=${CURDIR}/$(dir $@)
 
 index.html: slides.pug layout.pug js/mj-plugin/fragments.js
-	${CURDIR}/bin/compile --livereload=${USE_LIVERELOAD} --sync=${USE_SYNC}
+	${CURDIR}/bin/compile --livereload=${USE_LIVERELOAD} --sync=${USE_SYNC} --for_web=${FOR_WEB}
