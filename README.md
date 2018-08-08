@@ -46,7 +46,7 @@ Note that if you build the HTML file with livereload turned on, the page will pa
 This repo also includes SuperCool™ code for jumping from the browser to the relevant part of your editor, and from the editor to the browser. This is set up by default in `npm run watch`.
 
 #### Browser to editor
-When you run `npm run watch`, it needs to know what editor command to call. Set the environment variable `TALK_EDITOR` to tell it; current valid values are `subl` (for Sublime Text), `gvim`, `mvim`, `kate` (default `subl`). Then, shift-command / shift-super / shift-control click somewhere in the webpage to run that command and jump to the nearest spot in the Pug source that we can figure out.
+When you run `npm run watch`, it needs to know what editor command to call. Set the environment variable `TALK_EDITOR` to tell it; current valid values are `subl` (for Sublime Text), `atom`, `gvim`, `mvim`, `kate` (default `subl`). Then, shift-command / shift-super / shift-control click somewhere in the webpage to run that command and jump to the nearest spot in the Pug source that we can figure out.
 
 It's easy to add support for other editors (PRs welcome); check out the `scrollEditorTo` section of [`bin/serve`](bin/serve).
 
