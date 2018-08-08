@@ -52,10 +52,6 @@ function runEditorCommand(cmd, args) {
 let scrollEditorTo;
 switch (args.editor) {
     case "atom":
-        scrollEditorTo = (file, line, column) => {
-            runEditorCommand(args.editor, [`${file}:${line}:${column}`]);
-        };
-        break;
     case "subl":
         scrollEditorTo = (file, line, column) => {
             runEditorCommand(args.editor, [`${file}:${line}:${column}`]);
