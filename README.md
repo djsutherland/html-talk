@@ -23,7 +23,7 @@ git checkout -b nobel-lecture
 ## Using it
 Edit `slides.pug` to write your slides. Pug syntax is relatively straightforward, and the examples there should get you most of the way through the basics; full docs are at [pugjs.org](https://pugjs.org).
 
-`reveal.js` configuration options are set in [`layout.pug`](layout.pug), near the bottom. Note that it's actually using the `dev` branch of `reveal.js` with the `fragmentInURL` option added ([PR](https://github.com/hakimel/reveal.js/pull/2062)); this makes livereload when you're using fragments *much* nicer, but if you don't care about that, you can easily change `package.json` to use the NPM release.
+`reveal.js` configuration options are set in [`layout.pug`](layout.pug), near the bottom.
 
 A few things of note: I set `controls: false` and map the up/down arrow keys to be like spacebar / the opposite of spacebar, i.e. down steps down if you're in a vertical stack and right otherwise, because that works better with most pointer remotes. I also include the [`reveal.js-menu`](https://github.com/denehyg/reveal.js-menu) plugin; press `m` to access it to jump around between slides much more nicely.
 

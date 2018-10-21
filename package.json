@@ -21,7 +21,7 @@
     "watch": "bin/serve"
   },
   "dependencies": {
-    "reveal.js": "github:hakimel/reveal.js#30b670c",
+    "reveal.js": "^3.7.0",
     "reveal.js-menu": "^1.1.2"
   },
   "bundledDependencies": [
