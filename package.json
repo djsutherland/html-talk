@@ -22,25 +22,25 @@
   },
   "dependencies": {
     "reveal.js": "^3.7.0",
-    "reveal.js-menu": "^1.1.2"
+    "reveal.js-menu": "^1.2.0"
   },
   "bundledDependencies": [
     "reveal.js",
     "reveal.js-menu"
   ],
   "devDependencies": {
-    "chokidar": "^2.0.3",
-    "express": "^4.16.3",
+    "chokidar": "^2.0.4",
+    "express": "^4.16.4",
     "livereload": "^0.7.0",
     "locks": "^0.2.2",
     "lodash.template-cli": "^0.5.0",
     "mathjax-node-page": "^3.0.1",
     "minimist": "^1.2.0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.11.0",
     "pug": "^2.0.3",
     "pug-plugin-debug-line": "github:pugjs/pug-plugin-debug-line",
     "serve-static": "^1.13.2",
     "split2": "^3.0.0",
-    "ws": "^6.1.0"
+    "ws": "^6.1.2"
   }
 }
