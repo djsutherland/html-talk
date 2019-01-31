@@ -75,7 +75,18 @@ html(lang="en")
           history: true,
           progress: false,
           controls: #{for_web ? "true" : "false"},
-          slideNumber: false,
+
+          //- slideNumber: true,
+          slideNumber: function() {
+              // don't show .1 if first of vertical stack
+              var idx = Reveal.getIndices();
+              var value = [idx.h + 1];
+              if (idx.v > 0) {
+                  value.push('/');
+                  value.push(idx.v);
+              }
+              return value;
+          },
 
           keyboard: {
               40: 'next',  // down arrow: act like spacebar
