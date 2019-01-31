@@ -81,7 +81,8 @@ html(lang="en")
               40: 'next',  // down arrow: act like spacebar
               38: 'prev',  // up arrow: opposite of down arrow
               33: prevSlide, // page up: previous slide
-              34: nextSlide  // page down: next slide
+              34: nextSlide, // page down: next slide
+              65: function() { RevealSpotlight.togglePresentationMode(); } // a
           },
 
           menu: {
@@ -90,6 +91,14 @@ html(lang="en")
               openButton: false,
               markers: true,
               numbers: true
+          },
+
+          spotlight: {
+              size: 6,
+              toggleSpotlightOnMouseDown: true,
+              presentingCursor: 'none',
+              useAsPointer: true,
+              pointerColor: 'red'
           },
 
           fragmentInURL: #{use_livereload ? "true" : "false"},
@@ -105,9 +114,13 @@ html(lang="en")
               // { src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
               { src: 'node_modules/reveal.js-menu/menu.js' },
 
+              // https://github.com/denniskniep/reveal.js-plugin-spotlight
+              { src: 'js/spotlight.js' },
+
               // Handles automatic video playing
               { src: 'js/video-autoplay.js' }
           ]
       });
+
     if (use_sync)
       script(src="js/reveal-pug-sync.js")
