@@ -21,7 +21,7 @@
     "watch": "bin/serve"
   },
   "dependencies": {
-    "reveal.js": "^3.7.0",
+    "reveal.js": "dougalsutherland/reveal.js#slide-formats-370",
     "reveal.js-menu": "^1.2.0"
   },
   "bundledDependencies": [
