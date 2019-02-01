@@ -22,11 +22,13 @@
   },
   "dependencies": {
     "reveal.js": "dougalsutherland/reveal.js#slide-formats-370",
-    "reveal.js-menu": "^1.2.0"
+    "reveal.js-menu": "^1.2.0",
+    "reveal.js-notes-pointer": "^0.0.1"
   },
   "bundledDependencies": [
     "reveal.js",
-    "reveal.js-menu"
+    "reveal.js-menu",
+    "reveal.js-notes-pointer"
   ],
   "devDependencies": {
     "chokidar": "^2.0.4",

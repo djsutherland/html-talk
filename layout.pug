@@ -92,8 +92,7 @@ html(lang="en")
               40: 'next',  // down arrow: act like spacebar
               38: 'prev',  // up arrow: opposite of down arrow
               33: prevSlide, // page up: previous slide
-              34: nextSlide, // page down: next slide
-              65: function() { RevealSpotlight.togglePresentationMode(); } // a
+              34: nextSlide  // page down: next slide
           },
 
           menu: {
@@ -119,14 +118,11 @@ html(lang="en")
               // Don't need markdown plugins, because Pug is nicer.
               // { src: 'node_modules/reveal.js/plugin/markdown/marked.js' },
               // { src: 'node_modules/reveal.js/plugin/markdown/markdown.js' },
-              { src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true },
+              { src: 'node_modules/reveal.js-notes-pointer/notes-pointer.js' },
               // If you're using syntax highlighting, you might need to
               // uncomment the zenburn CSS line above.
               // { src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
               { src: 'node_modules/reveal.js-menu/menu.js' },
-
-              // https://github.com/denniskniep/reveal.js-plugin-spotlight
-              { src: 'js/spotlight.js' },
 
               // Handles automatic video playing
               { src: 'js/video-autoplay.js' }
