@@ -152,7 +152,7 @@ if (args.watch) {
         });
     };
 
-    let ignored = /node_modules|\.git|bin\/serve|README.md|package(-lock)?\.json|.*\.sublime-.*$/;
+    let ignored = /\/(node_modules|\.git|\.ipynb_checkpoints)\/|(bin\/serve|README.md|package(-lock)?\.json|\.(aux|lof|log|lot|fls|out|toc|fmt|fot|cb2?|lb|sublime-.*|gitignore))$/;
     chokidar.watch(args.dir, {ignored: ignored, ignoreInitial: true})
             .on('ready', (event, path) => { make('index.html'); })
             .on('all', (event, path) => { make(path); });
