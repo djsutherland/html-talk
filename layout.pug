@@ -40,6 +40,9 @@ html(lang="en")
       } else {
         css.innerHTML = ".for-web { display: none; }";
       }
+      if (use_sync && !for_web) {
+        css.innerHTML += "\n.reveal .slides { border: 1px dashed #ccc; }"
+      }
       document.getElementsByTagName('head')[0].appendChild(css);
 
       // Functions to skip to next/previous slide
