@@ -12,7 +12,7 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "build": "make clean-html all",
+    "build": "make clean-config all",
     "bundle": "npm install --only=prod && npm pack",
     "clean": "make clean",
     "deploy": "bin/deploy",

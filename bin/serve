@@ -21,7 +21,7 @@ process.env.USE_SYNC = args.sync ? 'true' : 'false';
 // initial build
 console.log("Initial build:");
 child_process.spawnSync(
-    'make', ['clean-html', 'all'], {cwd: args.dir, stdio: 'inherit'});
+    'make', ['clean-config', 'all'], {cwd: args.dir, stdio: 'inherit'});
 console.log();
 
 // start web server
@@ -152,7 +152,7 @@ if (args.watch) {
         });
     };
 
-    let ignored = /\/(node_modules|\.git|\.ipynb_checkpoints)\/|(bin\/serve|README.md|package(-lock)?\.json|\.(aux|lof|log|lot|fls|out|toc|fmt|fot|cb2?|lb|sublime-.*|gitignore))$/;
+    let ignored = /\/(node_modules|\.git|\.ipynb_checkpoints)\/|(js\/config\.js|bin\/serve|README.md|package(-lock)?\.json|\.(aux|lof|log|lot|fls|out|toc|fmt|fot|cb2?|lb|sublime-.*|gitignore))$/;
     chokidar.watch(args.dir, {ignored: ignored, ignoreInitial: true})
             .on('ready', (event, path) => { make('index.html'); })
             .on('all', (event, path) => { make(path); });

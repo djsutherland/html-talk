@@ -5,20 +5,14 @@ const minimist = require('minimist');
 const mjpage = require('mathjax-node-page').mjpage;
 const path = require('path');
 const pug = require('pug');
+const pug_debug_line = require('pug-plugin-debug-line');
 
 let args = minimist(process.argv, {
-    'default': {dir: path.dirname(__dirname),
-                livereload: false, sync: false, for_web: false},
-    'alias': {d: 'dir'},
-    'boolean': ['livereload', 'sync', 'for_web']
+    'default': {dir: path.dirname(__dirname)},
+    'alias': {d: 'dir'}
 });
 
-var pugOptions = {use_livereload: args.livereload, use_sync: args.sync,
-                  for_web: args.for_web};
-if (args.sync) {
-    const pug_debug_line = require('pug-plugin-debug-line');
-    pugOptions.plugins = [pug_debug_line()];
-}
+var pugOptions = {plugins: [pug_debug_line()]};
 var html = pug.renderFile(path.join(args.dir, 'slides.pug'), pugOptions);
 
 const mjglobal = {

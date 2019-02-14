@@ -4,15 +4,21 @@ FOR_WEB ?= false
 
 BIN := ${CURDIR}/node_modules/.bin
 
-.PHONY: all clean clean-html
+.PHONY: all clean clean-config
 
-all: index.html css/djs.css
+all: index.html js/config.js css/djs.css
 
-clean-html:
-	rm -f index.html
+clean-config:
+	rm -f js/config.js
 
-clean: clean-html
-	rm -f css/*.css js/mj-plugin/*.js
+clean: clean-config
+	rm -f index.html css/*.css js/mj-plugin/*.js
+
+index.html: slides.pug layout.pug js/mj-plugin/fragments.js
+	${CURDIR}/bin/compile
+
+js/config.js:
+	${CURDIR}/bin/make-config --livereload=${USE_LIVERELOAD} --sync=${USE_SYNC} --for_web=${FOR_WEB}
 
 css/%.css: scss/%.scss
 	${BIN}/node-sass $< > $@
@@ -20,6 +26,3 @@ css/%.css: scss/%.scss
 js/mj-plugin/%.js: js/mj-plugin-src/%.js
 	@# the tpl script kind of sucks
 	cd $(dir $<) && ${BIN}/tpl $*.js ../mj-plugin -- --dirname=${CURDIR}/$(dir $@)
-
-index.html: slides.pug layout.pug js/mj-plugin/fragments.js
-	${CURDIR}/bin/compile --livereload=${USE_LIVERELOAD} --sync=${USE_SYNC} --for_web=${FOR_WEB}

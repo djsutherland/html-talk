@@ -1,7 +1,4 @@
 doctype html
-- if (typeof use_livereload === 'undefined') use_livereload = false;
-- if (typeof use_sync === 'undefined') use_sync = false;
-- if (typeof for_web === 'undefined') for_web = false;
 html(lang="en")
   head
     block title
@@ -31,12 +28,20 @@ html(lang="en")
 
     script(src="node_modules/reveal.js/lib/js/head.min.js")
     script(src="node_modules/reveal.js/js/reveal.js")
-    if (use_livereload)
-      script.
-        var script = document.createElement('script');
-        script.src = 'http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1';
-        document.getElementsByTagName('body')[0].appendChild(script);
+
+    //- sets use_livereload, use_sync, for_web variables
+    script(src="js/config.js")
+
     script.
+      var css = document.createElement('style');
+      css.type = "text/css";
+      if (for_web) {
+        css.innerHTML = ".not-for-web { display: none; }";
+      } else {
+        css.innerHTML = ".for-web { display: none; }";
+      }
+      document.getElementsByTagName('head')[0].appendChild(css);
+
       // Functions to skip to next/previous slide
       // Based on rejected PR: https://github.com/hakimel/reveal.js/pull/371
       function nextSlide() {
@@ -70,23 +75,50 @@ html(lang="en")
           Reveal.navigateFragment(maxIdx);
       }
 
+      // More info: https://github.com/hakimel/reveal.js#dependencies
+      var deps = [
+        {src: 'node_modules/reveal.js-notes-pointer/notes-pointer.js', async: true},
+
+        // If you're using syntax highlighting, you might need to uncomment
+        // the zenburn CSS line above.
+        // {src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); }},
+
+        {src: 'node_modules/reveal.js-menu/menu.js', async: true},
+
+        // Handles automatic video playing
+        {src: 'js/video-autoplay.js', async: true}
+      ]
+
+      if (use_sync) {
+        deps.push({src: 'js/reveal-pug-sync.js', async: true});
+      }
+      if (use_livereload) {
+        var src = 'http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1';
+
+        var script = document.createElement('script');
+        script.src = src;
+        document.body.appendChild(script);
+
+        // doesn't work:  deps.push({src: src});
+      }
+
       // More info: https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
           history: true,
           progress: false,
-          controls: #{for_web ? "true" : "false"},
+          controls: for_web,
 
-          //- slideNumber: true,
-          slideNumber: function() {
-              // don't show .1 if first of vertical stack
-              var idx = Reveal.getIndices();
-              var value = [idx.h + 1];
-              if (idx.v > 0) {
-                  value.push('/');
-                  value.push(idx.v);
-              }
-              return value;
-          },
+          slideNumber: false,
+          // slideNumber: function() {
+          //     // don't show .1 if first of vertical stack
+          //     var idx = Reveal.getIndices();
+          //     var value = [idx.h + 1];
+          //     if (idx.v > 0) {
+          //         value.push('/');
+          //         value.push(idx.v);
+          //     }
+          //     return value;
+          // },
 
           keyboard: {
               40: 'next',  // down arrow: act like spacebar
@@ -103,31 +135,7 @@ html(lang="en")
               numbers: true
           },
 
-          spotlight: {
-              size: 6,
-              toggleSpotlightOnMouseDown: true,
-              presentingCursor: 'none',
-              useAsPointer: true,
-              pointerColor: 'red'
-          },
+          fragmentInURL: use_livereload,
 
-          fragmentInURL: #{use_livereload ? "true" : "false"},
-
-          // More info https://github.com/hakimel/reveal.js#dependencies
-          dependencies: [
-              // Don't need markdown plugins, because Pug is nicer.
-              // { src: 'node_modules/reveal.js/plugin/markdown/marked.js' },
-              // { src: 'node_modules/reveal.js/plugin/markdown/markdown.js' },
-              { src: 'node_modules/reveal.js-notes-pointer/notes-pointer.js' },
-              // If you're using syntax highlighting, you might need to
-              // uncomment the zenburn CSS line above.
-              // { src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-              { src: 'node_modules/reveal.js-menu/menu.js' },
-
-              // Handles automatic video playing
-              { src: 'js/video-autoplay.js' }
-          ]
+          dependencies: deps
       });
-
-    if (use_sync)
-      script(src="js/reveal-pug-sync.js")
