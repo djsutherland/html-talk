@@ -2,6 +2,7 @@
 
 const child_process = require('child_process');
 const minimist = require('minimist');
+const os = require('os');
 const path = require('path');
 const split2 = require('split2');
 
@@ -9,10 +10,13 @@ let args = minimist(process.argv, {
     'default': {port: 5000, lrport: 35729, syncport: 35730,
                 dir: path.dirname(__dirname),
                 http: true, watch: true, sync: true,
-                editor: process.env.TALK_EDITOR || "subl"},
-    'alias': {p: 'port', d: 'dir'},
-    'boolean': ['http', 'watch', 'sync']
+                editor: process.env.TALK_EDITOR || "subl",
+                procs: os.cpus().length},
+    'alias': {p: 'port', d: 'dir', j: 'procs'},
+    'boolean': ['http', 'watch', 'sync'],
+    'string': 'procs' // no int option in minimist :|
 });
+let make_j = `-j${args.procs}`;
 
 // set variables that'll be inherited by make
 process.env.USE_LIVERELOAD = args.watch ? 'true' : 'false';
@@ -21,7 +25,7 @@ process.env.USE_SYNC = args.sync ? 'true' : 'false';
 // initial build
 console.log("Initial build:");
 child_process.spawnSync(
-    'make', ['clean-config', 'all'], {cwd: args.dir, stdio: 'inherit'});
+    'make', [make_j, 'clean-config', 'all'], {cwd: args.dir, stdio: 'inherit'});
 console.log();
 
 // start web server
@@ -136,7 +140,7 @@ if (args.watch) {
     let makeOpts = {cwd: args.dir, stdio: ['inherit', 'pipe', 'inherit']};
     let make = (path) => {
         mutex.lock(() => {
-            let make = child_process.spawn('make', [], makeOpts);
+            let make = child_process.spawn('make', [make_j], makeOpts);
             make.stdout.pipe(split2()).on('data', (line) => {
                 if (!line.match(/make: Nothing to be done for [`']all'\./)) {
                     console.log(line);
