@@ -1,6 +1,7 @@
 USE_LIVERELOAD ?= false
 USE_SYNC ?= false
 FOR_WEB ?= false
+FOR_PDF ?= false
 
 BIN := ${CURDIR}/node_modules/.bin
 
@@ -18,7 +19,7 @@ index.html: slides.pug layout.pug js/mj-plugin/fragments.js
 	${CURDIR}/bin/compile
 
 js/config.js:
-	${CURDIR}/bin/make-config --livereload=${USE_LIVERELOAD} --sync=${USE_SYNC} --for_web=${FOR_WEB}
+	${CURDIR}/bin/make-config --livereload=${USE_LIVERELOAD} --sync=${USE_SYNC} --for_web=${FOR_WEB} --for_pdf=${FOR_PDF}
 
 css/%.css: scss/%.scss
 	${BIN}/node-sass $< > $@

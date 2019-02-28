@@ -35,14 +35,21 @@ html(lang="en")
     script.
       var css = document.createElement('style');
       css.type = "text/css";
+      var style = "";
       if (for_web) {
-        css.innerHTML = ".not-for-web { display: none; }";
+        style += ".not-for-web { display: none; }";
       } else {
-        css.innerHTML = ".for-web { display: none; }";
+        style += ".for-web { display: none; }";
+      }
+      if (for_pdf) {
+        style += ".not-for-pdf { display: none; }";
+      } else {
+        style += ".for-pdf { display: none; }";
       }
       if (use_sync && !for_web) {
-        css.innerHTML += "\n.reveal .slides { border: 1px dashed #ccc; }"
+        style += "\n.reveal .slides { border: 1px dashed #ccc; }"
       }
+      css.innerHTML = style;
       document.getElementsByTagName('head')[0].appendChild(css);
 
       // Functions to skip to next/previous slide
@@ -110,6 +117,7 @@ html(lang="en")
           history: true,
           progress: false,
           controls: for_web,
+          pdfMaxPagesPerSlide: 1,
 
           slideNumber: false,
           // slideNumber: function() {

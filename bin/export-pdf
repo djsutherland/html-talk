@@ -16,6 +16,18 @@ let args = minimist(process.argv, {
     'alias': {p: 'port', d: 'dir', j: 'procs', o: 'output'},
 });
 
+process.env.FOR_PDF = 'true';
+
+// monkey patch in this extra option...
+// https://github.com/Szpadel/chrome-headless-render-pdf/pull/50
+let old_options = RenderPDF.prototype.generatePdfOptions;
+RenderPDF.prototype.generatePdfOptions = function () {
+    let res = old_options.apply(this);
+    res.preferCSSPageSize = true;
+    return res;
+}
+
+
 let server = child_process
     .spawn(path.join(__dirname, 'serve'),
            ['--port', args.port, '--dir', args.dir, '--procs', args.procs,

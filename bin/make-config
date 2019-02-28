@@ -6,15 +6,16 @@ const path = require('path');
 
 let args = minimist(process.argv, {
     'default': {dir: path.dirname(__dirname),
-                livereload: false, sync: false, for_web: false},
+                livereload: false, sync: false, for_web: false, for_pdf: false},
     'alias': {d: 'dir'},
-    'boolean': ['livereload', 'sync', 'for_web']
+    'boolean': ['livereload', 'sync', 'for_web', 'for_pdf']
 });
 
 var content = `
 use_livereload = ${args.livereload};
 use_sync = ${args.sync};
 for_web = ${args.for_web};
+for_pdf = ${args.for_pdf};
 `;
 fs.writeFile(path.join(args.dir, 'js', 'config.js'), content, function(err) {
     if (err) {
