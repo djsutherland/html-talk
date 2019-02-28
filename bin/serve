@@ -24,8 +24,9 @@ process.env.USE_SYNC = args.sync ? 'true' : 'false';
 
 // initial build
 console.log("Initial build:");
-child_process.spawnSync(
-    'make', [make_j, 'clean-config', 'all'], {cwd: args.dir, stdio: 'inherit'});
+let opts = {cwd: args.dir, stdio: 'inherit'};
+child_process.spawnSync('make', ['clean-config'], opts);
+child_process.spawnSync('make', [make_j, 'all'], opts);
 console.log();
 
 // start web server
