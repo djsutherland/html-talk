@@ -38,7 +38,8 @@ server.stdout.pipe(split2()).on('data', (line) => {
             noMargins: true,
             includeBackground: true,
             chromeBinary: args.chrome
-        }
+        };
+        console.log("Exporting pdf (might take a bit...)");
         RenderPDF.generateSinglePdf(url, args.output, opts).then(() => {
             server.kill();
             console.log(`Output in ${args.output}`);
