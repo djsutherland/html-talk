@@ -9,6 +9,7 @@ A base for talks using [reveal.js](http://lab.hakim.se/reveal-js/).
 - Pull in reveal.js and other dependencies via npm, instead of writing your presentation in a reveal.js fork like many people seem to do.
 - Easily customize the theme settings in the SCSS template ([scss/djs.scss](scss/djs.scss)).
 - Build with a Makefile: Grunt/Gulp/whatever are fine, but I had so much trouble getting them to e.g. run Python code to make a figure only if the sources have changed. Tried and true Make just feels right.
+- Easy command-line pdf export, just do `npm run export-pdf` (using [`chrome-headless-render-pdf`](https://github.com/Szpadel/chrome-headless-render-pdf))
 
 ## Setup
 - Make sure you have at least `node` version 6 (preferably version 8); you might like [nvm](https://github.com/creationix/nvm) or, if you use `zsh`, especially [zsh-nvm](https://github.com/lukechilds/zsh-nvm).

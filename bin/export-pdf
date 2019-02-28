@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+const child_process = require('child_process');
+const RenderPDF = require('chrome-headless-render-pdf');
+const minimist = require('minimist');
+const os = require('os');
+const path = require('path');
+const split2 = require('split2');
+
+let args = minimist(process.argv, {
+    'default': {port: 5005,
+                dir: path.dirname(__dirname),
+                procs: os.cpus().length,
+                output: 'talk.pdf',
+                chrome: null},
+    'alias': {p: 'port', d: 'dir', j: 'procs', o: 'output'},
+});
+
+let server = child_process
+    .spawn(path.join(__dirname, 'serve'),
+           ['--port', args.port, '--dir', args.dir, '--procs', args.procs,
+            '--http', 'true', '--watch', 'false', '--sync', 'false'],
+           {stdio: ['inherit', 'pipe', 'inherit']})
+    .on('exit', (code) => {
+        if (code !== null && code != 0) {
+            console.error(`bin/serve returned code ${code}...`);
+        }
+    })
+    .on('error', (e) => {
+        console.error(`Couldn't call bin/serve: ${e}`);
+    });
+server.stdout.pipe(split2()).on('data', (line) => {
+    console.log(line);
+    if (line.match(/Web server running at/)) {
+        let url = `http://localhost:${args.port}/?print-pdf`;
+        let opts = {
+            landscape: true,
+            noMargins: true,
+            includeBackground: true,
+            chromeBinary: args.chrome
+        }
+        RenderPDF.generateSinglePdf(url, args.output, opts).then(() => {
+            server.kill();
+            console.log(`Output in ${args.output}`);
+        });
+    }
+});
