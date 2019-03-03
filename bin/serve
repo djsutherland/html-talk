@@ -139,18 +139,25 @@ if (args.watch) {
     //   - refresh index.html
     let mutex = locks.createMutex();
     let makeOpts = {cwd: args.dir, stdio: ['inherit', 'pipe', 'inherit']};
+    var progress = '...building...';
     let make = (path) => {
         mutex.lock(() => {
             let make = child_process.spawn('make', [make_j], makeOpts);
             make.stdout.pipe(split2()).on('data', (line) => {
                 if (!line.match(/make: Nothing to be done for [`']all'\./)) {
-                    console.log(line);
+                    process.stdout.write('\r' + line);
+                    var extra = progress.length - line.length;
+                    if (extra > 0) {
+                        process.stdout.write(' '.repeat(extra));
+                    }
+                    process.stdout.write('\n' + progress);
                 }
             });
             make.on('exit', (code) => {
                 if (code != 0) {
                     console.error(String.fromCharCode(7));
                 }
+                process.stdout.write('\r' + ' '.repeat(progress.length) + '\r');
                 lrserver.refresh(path);
                 mutex.unlock();
             });
