@@ -146,6 +146,12 @@ html(lang="en")
           },
 
           fragmentInURL: use_livereload,
-
           dependencies: deps
+      });
+
+      Reveal.addEventListener('resize', function(event) {
+        if (Reveal.getConfig().slideNumber) {
+          var el = document.querySelector('.slide-number');
+          el.style.zoom = event.scale;
+        }
       });
