@@ -24,7 +24,7 @@
   "dependencies": {
     "reveal.js": "dougalsutherland/reveal.js#slide-formats-370",
     "reveal.js-menu": "^1.2.0",
-    "reveal.js-notes-pointer": "^0.1.3"
+    "reveal.js-notes-pointer": "^0.1.4"
   },
   "bundledDependencies": [
     "reveal.js",
