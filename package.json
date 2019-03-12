@@ -22,7 +22,7 @@
     "watch": "bin/serve"
   },
   "dependencies": {
-    "reveal.js": "dougalsutherland/reveal.js#slide-formats-370",
+    "reveal.js": "dougalsutherland/reveal.js#pdf-slide-numbers",
     "reveal.js-menu": "^1.2.0",
     "reveal.js-notes-pointer": "^0.1.4"
   },
