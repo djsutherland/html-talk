@@ -7,7 +7,7 @@ const path = require('path');
 const split2 = require('split2');
 
 let args = minimist(process.argv, {
-    'default': {port: 5000, lrport: 35729, syncport: 35730,
+    'default': {port: 5000, livereload_port: 35729, sync_port: 35730,
                 dir: path.dirname(__dirname),
                 http: true, watch: true, sync: true,
                 editor: process.env.TALK_EDITOR || "subl",
@@ -21,6 +21,8 @@ let make_j = `-j${args.procs}`;
 // set variables that'll be inherited by make
 process.env.USE_LIVERELOAD = args.watch ? 'true' : 'false';
 process.env.USE_SYNC = args.sync ? 'true' : 'false';
+process.env.LIVERELOAD_PORT = args.livereload_port;
+process.env.SYNC_PORT = args.sync_port;
 
 // initial build
 console.log("Initial build:");
@@ -84,8 +86,8 @@ switch (args.editor) {
 
 if (args.sync) {
     const WebSocket = require('ws');
-    let syncserver = new WebSocket.Server({port: args.syncport});
-    console.log(`Sync server started (port ${args.syncport}).`);
+    let syncserver = new WebSocket.Server({port: args.sync_port});
+    console.log(`Sync server started (port ${args.sync_port}).`);
 
     syncserver.tellKind = (kind, command) => {
         syncserver.clients.forEach((client) => {
@@ -126,8 +128,8 @@ if (args.watch) {
     const locks = require('locks');
 
     // start livereload server
-    let lrserver = livereload.createServer({port: args.lrport});
-    console.log(`LiveReload server started (port ${args.lrport}).\n`);
+    let lrserver = livereload.createServer({port: args.livereload_port});
+    console.log(`LiveReload server started (port ${args.livereload_port}).\n`);
 
     // Don't want to run make synchronously here or else the servers will hang.
     // So we only run one make at a time. When the make finishes, it refreshes

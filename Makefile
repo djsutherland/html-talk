@@ -2,6 +2,8 @@ USE_LIVERELOAD ?= false
 USE_SYNC ?= false
 FOR_WEB ?= false
 FOR_PDF ?= false
+LIVERELOAD_PORT ?= 35729
+SYNC_PORT ?= 35730
 
 BIN := ${CURDIR}/node_modules/.bin
 
@@ -19,7 +21,7 @@ index.html: slides.pug layout.pug js/mj-plugin/fragments.js
 	${CURDIR}/bin/compile
 
 js/config.js:
-	${CURDIR}/bin/make-config --livereload=${USE_LIVERELOAD} --sync=${USE_SYNC} --for_web=${FOR_WEB} --for_pdf=${FOR_PDF}
+	${CURDIR}/bin/make-config --livereload=${USE_LIVERELOAD} --sync=${USE_SYNC} --for_web=${FOR_WEB} --for_pdf=${FOR_PDF} --livereload_port=${LIVERELOAD_PORT} --sync_port=${SYNC_PORT}
 
 css/%.css: scss/%.scss
 	${BIN}/node-sass $< > $@

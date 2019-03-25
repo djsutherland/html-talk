@@ -1,4 +1,11 @@
 (function () {
+    var syncPort;
+    if (sync_port === undefined) {
+        syncPort = 35730;
+    } else {
+        syncPort = sync_port;
+    }
+
     var queryAll = document.querySelectorAll.bind(document);
 
     // http://youmightnotneedjquery.com/#ready
@@ -112,7 +119,7 @@
     });
 
     var socket = new WebSocket(
-        'ws://' + (location.host || 'localhost').split(':')[0] + ':35730');
+        'ws://' + (location.host || 'localhost').split(':')[0] + ':' + syncPort);
 
     socket.addEventListener('open', function() {
         // tell the server that this client is a browser

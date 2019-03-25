@@ -102,7 +102,13 @@ html(lang="en")
         deps.push({src: 'js/reveal-pug-sync.js', async: true});
       }
       if (use_livereload) {
-        var src = 'http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1';
+        var livereloadPort;
+        if (livereload_port === undefined) {
+          livereloadPort = 35729;
+        } else {
+          livereloadPort = livereload_port;
+        }
+        var src = 'http://' + (location.host || 'localhost').split(':')[0] + ':' + livereloadPort + '/livereload.js?snipver=1';
 
         var script = document.createElement('script');
         script.src = src;
