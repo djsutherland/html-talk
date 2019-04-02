@@ -19,10 +19,8 @@ let args = minimist(process.argv, {
 let make_j = `-j${args.procs}`;
 
 // set variables that'll be inherited by make
-process.env.USE_LIVERELOAD = args.watch ? 'true' : 'false';
-process.env.USE_SYNC = args.sync ? 'true' : 'false';
-process.env.LIVERELOAD_PORT = args.livereload_port;
-process.env.SYNC_PORT = args.sync_port;
+process.env.USE_LIVERELOAD = args.watch ? args.livereload_port : 'false';
+process.env.USE_SYNC = args.sync ? args.sync_port : 'false';
 
 // initial build
 console.log("Initial build:");

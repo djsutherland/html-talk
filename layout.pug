@@ -103,10 +103,10 @@ html(lang="en")
       }
       if (use_livereload) {
         var livereloadPort;
-        if (livereload_port === undefined) {
-          livereloadPort = 35729;
+        if (Number.isInteger(use_livereload)) {
+          livereloadPort = use_livereload;
         } else {
-          livereloadPort = livereload_port;
+          livereloadPort = 35729;
         }
         var src = 'http://' + (location.host || 'localhost').split(':')[0] + ':' + livereloadPort + '/livereload.js?snipver=1';
 

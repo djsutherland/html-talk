@@ -1,9 +1,9 @@
 (function () {
     var syncPort;
-    if (sync_port === undefined) {
-        syncPort = 35730;
+    if (Number.isInteger(use_sync)) {
+        syncPort = use_sync;
     } else {
-        syncPort = sync_port;
+        syncPort = 35730;
     }
 
     var queryAll = document.querySelectorAll.bind(document);

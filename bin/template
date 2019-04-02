@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const minimist = require('minimist');
+const template = require('lodash.template');
+
+const data = minimist(process.argv.slice(2));
+const inFile = data._[0];
+const outFile = data._[1];
+
+const input = fs.readFileSync(inFile, 'utf8');
+
+const compiled = template(input);
+const output = compiled(data);
+
+fs.writeFileSync(outFile, output);
