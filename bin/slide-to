@@ -5,8 +5,7 @@ const path = require('path');
 const WebSocket = require('ws');
 
 const args = minimist(process.argv.slice(2), {
-    'default': {syncport: 35730,
-                file: path.join(__dirname, '..', 'slides.pug'),
+    'default': {file: path.join(__dirname, '..', 'slides.pug'),
                 col: 1},
     'alias': {p: 'syncport', f: 'file', l: 'line', c: 'col'},
 });
@@ -25,6 +24,22 @@ if (isNaN(line) || line <= 0) {
 if (isNaN(col) || col <= 0) {
     console.error(`col must be a positive integer; got '${col}'`);
     process.exit(1);
+}
+
+if (args.syncport === undefined) {
+    const fs = require('fs');
+
+    const configPath = path.join(__dirname, '..', 'js', 'config.js');
+    const content = fs.readFileSync(configPath, 'utf8');
+
+    args.syncport = 35730;
+    const match = /^\s*use_sync\s*=\s*(.*);\s*$/m.exec(content);
+    if (match) {
+        let val = Number(match[1]);
+        if (Number.isInteger(val)) {
+            args.syncport = val;
+        }
+    }
 }
 
 const ws = new WebSocket(`ws://localhost:${args.syncport}`);
