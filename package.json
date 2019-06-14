@@ -32,19 +32,19 @@
     "reveal.js-notes-pointer"
   ],
   "devDependencies": {
-    "chokidar": "^2.1.2",
+    "chokidar": "^3.0.1",
     "chrome-headless-render-pdf": "^1.8.2",
-    "express": "^4.16.4",
-    "livereload": "^0.7.0",
+    "express": "^4.17.1",
+    "livereload": "^0.8.0",
     "locks": "^0.2.2",
     "lodash.template": "^4.4.0",
-    "mathjax-node-page": "^3.0.1",
+    "mathjax-node-page": "^3.2.0",
     "minimist": "^1.2.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "pug": "^2.0.3",
     "pug-plugin-debug-line": "github:pugjs/pug-plugin-debug-line",
-    "serve-static": "^1.13.2",
-    "split2": "^3.1.0",
-    "ws": "^6.1.4"
+    "serve-static": "^1.14.1",
+    "split2": "^3.1.1",
+    "ws": "^7.0.0"
   }
 }
