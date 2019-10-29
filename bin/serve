@@ -10,10 +10,11 @@ let args = minimist(process.argv, {
     'default': {port: 5000, livereload_port: 35729, sync_port: 35730,
                 dir: path.dirname(__dirname),
                 http: true, watch: true, sync: true,
+                for_web: false, for_pdf: false,
                 editor: process.env.TALK_EDITOR || "subl",
                 procs: os.cpus().length},
     'alias': {p: 'port', d: 'dir', j: 'procs'},
-    'boolean': ['http', 'watch', 'sync'],
+    'boolean': ['http', 'watch', 'sync', 'for_web', 'for_pdf'],
     'string': 'procs' // no int option in minimist :|
 });
 let make_j = `-j${args.procs}`;
@@ -25,7 +26,6 @@ process.env.USE_SYNC = args.sync ? args.sync_port : 'false';
 // initial build
 console.log("Initial build:");
 let opts = {cwd: args.dir, stdio: 'inherit'};
-child_process.spawnSync('make', ['clean-config'], opts);
 child_process.spawnSync('make', [make_j, 'all'], opts);
 console.log();
 
@@ -35,6 +35,15 @@ if (args.http) {
 
     console.log(`Web server running at http://localhost:${args.port}/`);
     var server = express();
+    server.get('/js/config.js', (req, res) => {
+        res.set('Content-Type', 'application/javascript');
+        res.send(`
+// from bin/serve, not disk!
+use_livereload = ${args.watch ? args.livereload_port : 'false'};
+use_sync = ${args.sync ? args.sync_port : 'false'};
+for_web = ${args.for_web};
+for_pdf = ${args.for_pdf};`);
+    });
     server.use(express.static(args.dir));
     server.listen(args.port);
 }
