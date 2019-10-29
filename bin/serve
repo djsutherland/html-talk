@@ -32,11 +32,10 @@ console.log();
 // start web server
 if (args.http) {
     const express = require('express');
-    const serveStatic = require('serve-static');
 
     console.log(`Web server running at http://localhost:${args.port}/`);
     var server = express();
-    server.use(serveStatic(args.dir));
+    server.use(express.static(args.dir));
     server.listen(args.port);
 }
 
