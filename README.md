@@ -12,7 +12,7 @@ A base for talks using [reveal.js](http://lab.hakim.se/reveal-js/).
 - Easy command-line pdf export, just do `npm run export-pdf` (using [`chrome-headless-render-pdf`](https://github.com/Szpadel/chrome-headless-render-pdf))
 
 ## Setup
-- Make sure you have at least `node` version 6 (preferably version 8); you might like [nvm](https://github.com/creationix/nvm) or, if you use `zsh`, especially [zsh-nvm](https://github.com/lukechilds/zsh-nvm).
+- Make sure you have at least `node` version 6 (preferably higher); you might like [nvm](https://github.com/creationix/nvm) or, if you use `zsh`, especially [zsh-nvm](https://github.com/lukechilds/zsh-nvm).
 - Clone the repo somewhere. I like to work on a different branch for my actual talks:
 ```
 git clone https://github.com/dougalsutherland/html-talk awesome-talk
@@ -24,14 +24,14 @@ git checkout -b nobel-lecture
 ## Using it
 Edit `slides.pug` to write your slides. Pug syntax is relatively straightforward, and the examples there should get you most of the way through the basics; full docs are at [pugjs.org](https://pugjs.org).
 
-`reveal.js` configuration options are set in [`layout.pug`](layout.pug), near the bottom.
-
-A few things of note: I set `controls: false` and map the up/down arrow keys to be like spacebar / the opposite of spacebar, i.e. down steps down if you're in a vertical stack and right otherwise, because that works better with most pointer remotes. I also include the [`reveal.js-menu`](https://github.com/denehyg/reveal.js-menu) plugin; press `m` to access it to jump around between slides much more nicely.
+`reveal.js` configuration options are set in [`layout.pug`](layout.pug), near the bottom. A few things of note here:
+- There's a `for_web` mode intended for putting slides on your website or whatever. This renders things with the `for-web` class, which are otherwise set to `display: none`, and also sets `controls: true` (it's otherwise `false`).
+- Up/down arrow keys are set by default to behave like spacebar / the opposite of spacebar, i.e. down steps down if you're in a vertical stack and right otherwise, because that works better with most pointer remotes and styles of using vertical slides. I also include the [`reveal.js-menu`](https://github.com/denehyg/reveal.js-menu) plugin; press `m` to access it to jump around between slides much more nicely.
 
 To build `index.html` from your slides, you have some options.
 
 ### Boring way
-`npm run build` will make `index.html` from `slides.pug`. (This just runs `make`; you can do that too.) You can then just open `index.html` in a browser. Everything should work there **except** for the timer in the speaker notes.
+`npm run build` will make `index.html` from `slides.pug`. (This just runs `make`; you can do that too.) You can then just open `index.html` in a browser. Everything should work there **except** for the timer in the speaker notes. This also puts you in `for_web` mode, unless you edit `js/config.js` yourself.
 
 ### Web server
 To get the speaker notes timer to work, run a webserver: `npm run serve`.
