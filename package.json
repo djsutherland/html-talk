@@ -9,7 +9,7 @@
     "web": "http://dougal.me"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "scripts": {
     "build": "make clean-config all",
