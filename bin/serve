@@ -33,16 +33,18 @@ console.log();
 if (args.http) {
     const express = require('express');
 
-    console.log(`Web server running at http://localhost:${args.port}/`);
-    var server = express();
-    server.get('/js/config.js', (req, res) => {
-        res.set('Content-Type', 'application/javascript');
-        res.send(`
+    const config_js = `
 // from bin/serve, not disk!
 use_livereload = ${args.watch ? args.livereload_port : 'false'};
 use_sync = ${args.sync ? args.sync_port : 'false'};
 for_web = ${args.for_web};
-for_pdf = ${args.for_pdf};`);
+for_pdf = ${args.for_pdf};`;
+
+    console.log(`Web server running at http://localhost:${args.port}/`);
+    var server = express();
+    server.get('/js/config.js', (req, res) => {
+        res.set('Content-Type', 'application/javascript');
+        res.send(config_js);
     });
     server.use(express.static(args.dir));
     server.listen(args.port);
