@@ -1,0 +1,14 @@
+{
+    "folders":
+    [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "run_with_file_line": {
+            "command": "~/.nvm/versions/node/v12.13.0/bin/node bin/slide-to -f {file} -l {line} -c {col}",
+            "syntax": "Pug"
+        }
+    }
+}
