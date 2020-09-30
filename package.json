@@ -22,7 +22,7 @@
     "watch": "bin/serve"
   },
   "dependencies": {
-    "reveal.js": "dougalsutherland/reveal.js#pdf-slide-numbers",
+    "reveal.js": "^3.9.2",
     "reveal.js-menu": "^1.2.0",
     "reveal.js-notes-pointer": "^0.1.4"
   },
@@ -32,18 +32,18 @@
     "reveal.js-notes-pointer"
   ],
   "devDependencies": {
-    "chokidar": "^3.2.3",
-    "chrome-headless-render-pdf": "^1.8.2",
+    "chokidar": "^3.4.2",
+    "chrome-headless-render-pdf": "^1.8.5",
     "express": "^4.17.1",
-    "livereload": "^0.8.2",
+    "livereload": "^0.9.1",
     "locks": "^0.2.2",
     "lodash.template": "^4.5.0",
     "mathjax-node-page": "^3.2.0",
-    "minimist": "^1.2.0",
-    "node-sass": "^4.13.0",
-    "pug": "^2.0.4",
+    "minimist": "^1.2.5",
+    "node-sass": "^4.14.1",
+    "pug": "^3.0.0",
     "pug-plugin-debug-line": "github:pugjs/pug-plugin-debug-line",
-    "split2": "^3.1.1",
-    "ws": "^7.2.0"
+    "split2": "^3.2.2",
+    "ws": "^7.3.1"
   }
 }
