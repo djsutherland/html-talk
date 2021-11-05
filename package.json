@@ -40,9 +40,9 @@
     "lodash.template": "^4.5.0",
     "mathjax-node-page": "^3.2.0",
     "minimist": "^1.2.5",
-    "node-sass": "^4.14.1",
     "pug": "^3.0.0",
     "pug-plugin-debug-line": "github:pugjs/pug-plugin-debug-line",
+    "sass": "^1.43.4",
     "split2": "^3.2.2",
     "ws": "^7.3.1"
   }

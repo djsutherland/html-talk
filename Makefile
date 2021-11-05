@@ -11,7 +11,7 @@ index.html: slides.pug layout.pug js/mj-plugin/fragments.js
 	${CURDIR}/bin/compile
 
 css/%.css: scss/%.scss
-	${BIN}/node-sass -qo css $<
+	${BIN}/sass -q -I . $< $@
 
 js/mj-plugin/%.js: js/mj-plugin/%.js.tpl
 	${CURDIR}/bin/template --dirname=${CURDIR}/$(dir $@) $< $@
