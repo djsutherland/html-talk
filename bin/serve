@@ -7,7 +7,7 @@ const path = require('path');
 const split2 = require('split2');
 
 let args = minimist(process.argv, {
-    'default': {port: 5000, livereload_port: 35729, sync_port: 35730,
+    'default': {port: 8000, livereload_port: 35729, sync_port: 35730,
                 dir: path.dirname(__dirname),
                 http: true, watch: true, sync: true,
                 for_web: false, for_pdf: false,
